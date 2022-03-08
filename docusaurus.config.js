@@ -19,7 +19,7 @@ module.exports = {
 const config = {
   title: "Developer Documentation",
   tagline: "1Kosmos BlockID Developer Portal",
-  url: 'https://eager-thompson-4fe0a6.netlify.app',
+  url: 'https://stoic-yonath-1234b9.netlify.app/',
   baseUrl: "/",
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
