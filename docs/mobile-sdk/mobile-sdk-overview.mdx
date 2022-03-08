@@ -1,0 +1,95 @@
+---
+sidebar_position: 5
+slug: /mobile-sdk/overview
+id: mobile-sdk-overview
+---
+
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# SDK Overview {#SDK Overview}
+
+## **Abstract**
+
+The goal of the BlockID Mobile SDK documentation is to provide any developer (with Android or iOS experience) the knowledge and understanding required to integrate the BlockID Mobile SDK and access the core features provided.
+
+## **Get Started Immediately**
+
+Developers can download the BlockID Demo Application to immediately run the code and see how the BlockID Mobile SDK can be used:
+
+- <a href="https://github.com/1KBlockID/android-blockid-demo-app" target="_blank">Android Application</a>
+- <a href="https://github.com/1KBlockID/ios-blockid-demo-app" target="_blank">iOS Application</a>
+
+## **Introduction**
+
+The BlockID Mobile SDK is a **framework** available for Android and iOS platforms. The framework can easily be imported or integrated into any native Android or iOS applications.
+
+The table below summarizes the BlockID Mobile SDK's version, format, and approximate size for each platform:
+
+| Platform | Version | Format     | Approximate SDK Size |
+|----------|---------|------------|----------------------|
+| Android  | 1.6.00  | .aar       | 368 KB               |
+| iOS      | 1.6.00  | .framework | 34 MB                |
+
+
+## **Features**
+
+The below features and capabilities are accessible to application developers through the BlockID Mobile SDK. Developers can setup authentication method in the apps, onboard users, provide users a capability to scan, enroll and verify their identity and miscellaneous documents.
+
+### Authentication 
+
+Insufficient authentication controls allow an attacker to circumvent intended authentication-based security mechanisms and gain access to an application illegitimately. The application developers must implement an authentication mechanism in the app. The BlockID Mobile SDK provides below authentication methods which application developers can implement in their apps very easily.
+
+- PIN Authentication
+- Biometrics Authentication
+- LiveID Authentication - Identity verification for mobile app
+
+:::tip **Note:**
+The application must register for above authentication mechanisms (using Document Enrollment features) before using either of them.
+:::
+
+### User Onboarding
+
+The BlockID Mobile SDK provides developers an option to add (link), remove (unlink) and authenticate user account(s).
+
+### Document Scanning
+
+The BlockID Mobile SDK provides developers a quick way to integrate document scanning feature in their application. The BlockID Mobile SDK's document scanner supports following documents:
+
+- Driver's License
+- Passport
+- National ID
+
+### Document Enrolling
+
+The BlockID Mobile SDK provides developers an option to add, remove and restore the document(s) to or from the BlockID platform. The following is a list of entities which can be added, removed and restored to or from BlockID platform using document registration service:
+
+- PIN
+- LiveID
+- Identity Documents 
+    - Driver's License
+    - Passport
+    - National ID
+- Miscellaneous Documents
+
+:::tip **Note:**
+LiveID registration is required to register an identity documents
+:::
+
+### Document Verification Services
+
+BlockID Mobile SDK provides the functionality to verify data that the user has presented through our partners. The BlockID Mobile SDK supports the below document verification services:
+
+- Driver's License Verification
+- Social Security Number (SSN) Verification
+- Face Liveness Check during LiveID Enrollment
+
+## **Security**
+
+- There is a locking mechanism implemented in the BlockID Mobile SDK to prevent any kind of unauthorized access
+- The BlockID Mobile SDK will always be in a locked state by default
+- To unlock the BlockID Mobile SDK, one has to successfully login/register in an **authentication mode**
+- If the BlockID Mobile SDK is locked and someone tried to access the API, the screen will show an error message stating **unauthorized access**
+
+
