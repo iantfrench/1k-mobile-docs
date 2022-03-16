@@ -8,7 +8,7 @@ id: mobile-sdk-overview
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-# SDK Overview {#SDK Overview}
+# SDK Overview
 
 ## **Abstract**
 
@@ -87,7 +87,12 @@ BlockID Mobile SDK provides the functionality to verify data that the user has p
 
 ## **Security**
 
-- There is a locking mechanism implemented in the BlockID Mobile SDK to prevent any kind of unauthorized access
+In terms of security, SDKs are considered to be deployed horizontally in the application ecosystem, whereas apps are considered to be deployed vertically. What this means is that an insecure SDK could potentially compromise the security of all the applications associated with that particular SDK. 
+
+Additionally, SDKs are most commonly owned by third parties, outside of the control of the owners of the application using the SDK. This can make it difficult to resolve any discovered vulnerabilities.  
+
+With all this in mind, the BlockID SDK was designed with a locking mechanism to prevent any unauthorized access. 
+
 - The BlockID Mobile SDK will always be in a locked state by default
 - To unlock the BlockID Mobile SDK, one has to successfully login/register in an **authentication mode**
 - If the BlockID Mobile SDK is locked and someone tried to access the API, the screen will show an error message stating **unauthorized access**

@@ -9,76 +9,237 @@ import TabItem from "@theme/TabItem";
 
 # iOS Integration Guide
 
-## **Introduction**
-
-The goal of the iOS BlockID Mobile SDK documentation is to give any developer with iOS experience the knowledge and understanding required to create . . .
-
-In addition to detailing how to use the iOS version of the BlockID Mobile SDK, this documentation describes . . . 
+This document provides a step by step guide on how to install, integrate and initialize the BlockID SDK into any iOS applications.
 
 
 ## **Prerequisites**
 
-Several general and specific iOS prerequisites are required to develop an application with the iOS version of the BlockID Mobile SDK.
+There are a few general and platform-specific dependencies required to integrate BlockID SDK into an iOS application. Developers should take note of the following requirements: 
 
 ### General
 
 - An understanding of how to develop applications for iOS
 - At least one compatible iOS mobile device
 
-### iOS
+### Technical
 
-- Xcode 10.2+ or higher
+- Xcode 13 or higher
   - Deployment target of iOS 11.0 or higher
-  - Swift 5.0 or higher
-- Cocoapods 1.9.3 or higher
-- iOS Developer account
+  - Swift 5.5 or higher
+- Cocoapods 1.10.0 or higher
 - Device support
   - iPhone 5s or later
   - iPod Touch (6th generation) or later
 
-## **Integrate SDK into Application**
+## **Sample Application**
 
-The examples below import the BlockID SDK into a new iOS project. The same steps can be used for integration into an existing application.
+Download the iOS BlockID Demo application to immediately run the code and quickly get a feel for how the BlockID SDK might be used.
 
-### Xcode Project Integration
+- <a href="https://github.com/1KBlockID/ios-blockid-demo-app" target="_blank">iOS Application</a>
+
+
+## **SDK Integration**
+
+This section explains the step by step guide on how to setup and integrate the BlockID SDK in an iOS application. 
+
+:::tip 
+The examples below show the integration of the BlockID SDK into a new iOS project - the same steps can be used to integrate the SDK into an existing application
+:::
 
 :::note Screenshots in this section are generated using Xcode 13.0.
 :::
 
-#### Create a New Application
 
-- Step 1 
-- Step 2
-- Step 3
+### Step 1: Create a New Application
 
-#### Install SDK in the Project
+- Open `Xcode`
+- Select *File -> New -> Project*
+- Choose *Single View Application* template
+- Press *Next*
 
-As of writing this document, the BlockID iOS SDK can only be installed using manual process as described below:
+import iOS3 from '../assets/iOS-3.png';
+<img src={iOS3} alt='xcode menu' />
 
-#### Download the BlockID SDK
+- We are using **BlockID Demo** for our *Product Name* 
+- Leave all the other settings as default
 
-- Step 1
-- Step 2
-- Step 3 
+import iOS4 from '../assets/iOS-4.png';
+<img src={iOS4} alt='project settings' />
 
-#### Adding Required iOS Libraries
+- Press *Next* and select a location to save your project
 
-- Step 1
-- Step 2
-- Step 3
+- Press *Create* and the project will be opened as shown below
 
+import iOS7 from '../assets/iOS-7.png';
+<img src={iOS3} alt='xcode project' />
 
-## **Application Deployment**
+### Step 2: Setup CocoaPods
 
-### Xcode Configuration
+#### 2.1 Install CocoaPods
 
-iOS applications require proper Xcode configuration. A below workaround for an App Store submission bug when archiving universal binaries is required
+Installing the BlockID iOS SDK via <a href='http://cocoapods.org/' target='_blank'>CocoaPods</a>automates the majority of the installation process for you. Before beginning this process, please ensure that you are using <a href='https://www.ruby-lang.org/en/installation/' target='_blank'>Ruby 2.0.0</a> or greater. 
 
-- Create a new **Run Script Phase** in the application target's **Build Phases**
-
-- Paste the following in the script text field
+- Open a terminal and issue the following command to install CocoaPods
 
 ```shell 
+sudo gem install cocoapods
+```
+
+import iOS11 from '../assets/iOS-11.png';
+<img src={iOS11} alt='install cocoapods' />
+
+#### 2.2 Construct the Podfile
+
+Now that you have installed the CocoaPods, next step is to create an empty file in your Xcode project directory named `Podfile`
+
+- Using the terminal, `cd` to your BlockID Demo root directory 
+- Run the following command to create a Podfile
+
+```shell
+touch Podfile
+```
+
+- Confirm that the `Podfile` was created by navigating to the BlockID Demo root
+
+import iOS12 from '../assets/iOS-12.png';
+<img src={iOS12} alt='Podfile' />
+
+### Step 3: Add BlockID SDK
+
+#### 3.1 CocoaPods Integration (Recommended)
+
+:::note 
+Installation of BlockID iOS SDK using Cocoapods is supported from version 1.6.00 only
+:::
+
+##### 3.1.1 Add BlockID SDK Library
+
+Add the following lines to your `Podfile`:
+
+```shell title="Podfile"
+target 'BlockID Demo' do
+    pod 'BlockIDSDK', :git => 'https://github.com/1KBlockID/ios-blockidsdk.git', :tag => '1.6.00'
+end
+```
+
+##### 3.1.2 Install BlockID SDK
+
+To install the BlockID SDK as a pod, navigate to the root directory of your BlockID Demo project within your terminal and run the following command:
+
+```shell
+pod install
+```
+
+:::note 
+All BlockID SDK dependencies will be installed at this time
+:::
+
+import iOS15 from '../assets/iOS-15.png';
+<img src={iOS15} alt='Install Podfile' />
+
+#### 3.2 Manual Integration
+
+BlockID iOS SDK **versions 1.6.00 and *lower*** must be installed and integrated manually. 
+
+##### 3.2.1 Download BlockID SDK 
+
+- If currently open, close the *BlockID Demo* project in Xcode
+
+- Using the terminal, clone the latest version of the BlockID SDK using `git`
+
+```shell
+git clone https://github.com/1KBlockID/ios-blockidsdk.git
+``` 
+- Copy the entire `BlockIDSDK.framework` folder to your *BlockID Demo* root diectory
+
+import iOS17 from '../assets/iOS-17.png';
+<img src={iOS17} alt='BlockID SDK.framework' />
+
+- Using `Finder`, double-click the `BlockID Demo.xcworkspace` file in the same directory 
+
+- `Xcode` will open. Select *BlockID Demo* under *Targets* and select *General -> Frameworks, Libraries and Embedded Content*
+
+import iOS15 from '../assets/iOS-15.png';
+<img src={iOS15} alt='Target' />
+
+- Click *+* to add `BlockIDSDK.framework`
+- Once the framework is added, select *Embed & Sign* for `BlockIDSDK.framework`
+
+import iOS18 from '../assets/iOS-18.png';
+<img src={iOS18} alt='Embed and Sign' />
+
+- The BlockID SDK uses <a href='https://developer.apple.com/documentation/cryptotokenkit' target='_blank'>CryptoTokenKit.framework</a>. The framework must be linked as *Optional* in the application target *Build Phase*
+
+import iOS20 from '../assets/iOS-20.png';
+<img src={iOS20} alt='' />
+
+import iOS21 from '../assets/iOS-21.png';
+<img src={iOS21} alt='' />
+
+##### 3.2.2 Adding required iOS libraries 
+
+The BlockID SDK has additional dependencies that must be installed. Open the `Podfile` (created during `Step 2.2`) and add the following: 
+
+```shell title="Podfile"
+# Uncomment the next line to define a global platform for your project
+# Set iOS version as per project requirement
+# BlockID SDK support is from iOS 11.0
+# set the iOS version as per project requirement
+platform :ios, '11.0'
+
+target 'BlockID Demo' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for BlockIDTestApp
+  pod 'TrustWalletCore', '~> 2.5.6'
+  pod 'Alamofire','~> 4.9.1'
+  pod 'CryptoSwift', '~> 1.3.0'
+  pod 'BigInt', '~> 4.0'
+  pod 'SwiftyTesseract', '~> 3.1.3'
+  pod 'OpenSSL-Universal', '~> 1.1.180'
+  pod 'Toast-Swift', '~> 5.0.1'
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      # build active architecture only
+      config.build_settings['ONLY_ACTIVE_ARCH'] = 'YES'
+
+      # set iOS Deployment Target to 11.0 or as per project requirement
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
+    end
+  end
+end
+```
+
+##### 3.2.2 Install Pods
+
+To install all the dependent pods, `cd` to the BlockID Demo root directory using the `Terminal` and run the following:
+
+```shell 
+pod install 
+```
+
+import iOS19 from '../assets/iOS-19.png';
+<img src={iOS19} alt='additional pods' />
+
+### Step 4: Enable Bitcode
+
+For iOS apps, bitcode is the default, but optional. The BlockID SDK supports enabling bitcode option in the application. 
+
+### Step 5: Applicaiton Deployment 
+
+iOS applications require proper Xcode configuration. As the current version of BlockID iOS SDK (`version 1.6.00`) is *FAT framework*, a workaround is provided below for an `iOS App Store` submission bug that that appears when archiving universal binaries is required on your project. 
+
+The script below removes the `iOS Simulator` architecture from the `.ipa` file, which creates issues when archiving for an `App Store` submission. 
+
+- Create a new *Run Script Phase* in the application target *Build Phases* 
+- Rename the script to `Framework Thinning` (optional)
+- Paste the following in the script text field:
+
+```shell title="Framework Thinning"
 APP_PATH="${TARGET_BUILD_DIR}/${WRAPPER_NAME}"
 
 # This script loops through the frameworks embedded in the application and
@@ -117,3 +278,37 @@ do
     mv "$FRAMEWORK_EXECUTABLE_PATH-merged" "$FRAMEWORK_EXECUTABLE_PATH"
 done
 ```
+
+### Step 6: Run the Application  
+
+The setup of the application to include the BlockID SDK is now complete. The project can now be compiled to check for any errors. 
+
+:::tip
+Encryption of data takes longer while the app runs in *Debug* mode. It is recommended (but not mandatory) to change the application scheme to *Relese* before running the application
+:::
+
+## Initial SDK Setup 
+
+The SDK is now added to your application. In order to get the features of the SDK, you need to add your `License Key`, your `Wallet`, and your `Tenant` details. 
+
+:::caution
+The information must be set using following sequence only and **MUST NOT** be changed
+:::
+
+:::tip
+Refer to the <a href="/mobile-sdk/api-reference" target="_blank">API Reference Guide</a> to get more details on the methods used in this section
+:::
+
+### 1. Set License Key
+
+The license key must be called **each time** the application is launched. Internally, the SDK checks if:
+
+- The given license key is valid
+- The application is authorized to use the given license key 
+
+To set the license key, add the following code in your application:
+
+```jsx 
+BlockIDSDK.sharedInstance.setLicenseKey(key: "<your_license_key>")
+```
+
