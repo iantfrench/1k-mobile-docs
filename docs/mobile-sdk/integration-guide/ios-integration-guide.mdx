@@ -9,7 +9,7 @@ import TabItem from "@theme/TabItem";
 
 # iOS Integration Guide
 
-This document provides a step by step guide on how to install, integrate and initialize the BlockID SDK into any iOS applications.
+This document provides a step-by-step guide on how to install, integrate and initialize the BlockID SDK into any iOS application.
 
 
 ## **Prerequisites**
@@ -40,7 +40,7 @@ Download the iOS BlockID Demo application to immediately run the code and quickl
 
 ## **SDK Integration**
 
-This section explains the step by step guide on how to setup and integrate the BlockID SDK in an iOS application. 
+This section explains the step by step guide on how to set up and integrate the BlockID SDK in an iOS application. 
 
 :::tip 
 The examples below show the integration of the BlockID SDK into a new iOS project - the same steps can be used to integrate the SDK into an existing application
@@ -68,7 +68,7 @@ import iOS4 from '../assets/iOS-4.png';
 
 - Press *Next* and select a location to save your project
 
-- Press *Create* and the project will be opened as shown below
+- Press *Create*, and the project will be opened as shown below
 
 import iOS7 from '../assets/iOS-7.png';
 <img src={iOS3} alt='xcode project' />
@@ -90,7 +90,7 @@ import iOS11 from '../assets/iOS-11.png';
 
 #### 2.2 Construct the Podfile
 
-Now that you have installed the CocoaPods, next step is to create an empty file in your Xcode project directory named `Podfile`
+Now that you have installed the CocoaPods, the next step is to create an empty file in your Xcode project directory named `Podfile`
 
 - Using the terminal, `cd` to your BlockID Demo root directory 
 - Run the following command to create a Podfile
@@ -150,7 +150,7 @@ BlockID iOS SDK **versions 1.6.00 and *lower*** must be installed and integrated
 ```shell
 git clone https://github.com/1KBlockID/ios-blockidsdk.git
 ``` 
-- Copy the entire `BlockIDSDK.framework` folder to your *BlockID Demo* root diectory
+- Copy the entire `BlockIDSDK.framework` folder to your *BlockID Demo* root directory
 
 import iOS17 from '../assets/iOS-17.png';
 <img src={iOS17} alt='BlockID SDK.framework' />
@@ -227,11 +227,11 @@ import iOS19 from '../assets/iOS-19.png';
 
 ### Step 4: Enable Bitcode
 
-For iOS apps, bitcode is the default, but optional. The BlockID SDK supports enabling bitcode option in the application. 
+For iOS apps, bitcode is enabled by default but is optional. The BlockID SDK supports enabling bitcode option in the application. 
 
-### Step 5: Applicaiton Deployment 
+### Step 5: Application Deployment 
 
-iOS applications require proper Xcode configuration. As the current version of BlockID iOS SDK (`version 1.6.00`) is *FAT framework*, a workaround is provided below for an `iOS App Store` submission bug that that appears when archiving universal binaries is required on your project. 
+iOS applications require proper Xcode configuration. As the current version of BlockID iOS SDK (`version 1.6.00`) is *FAT framework*, a workaround is provided below for an `iOS App Store` submission bug that appears when archiving universal binaries is required on your project. 
 
 The script below removes the `iOS Simulator` architecture from the `.ipa` file, which creates issues when archiving for an `App Store` submission. 
 
@@ -284,22 +284,22 @@ done
 The setup of the application to include the BlockID SDK is now complete. The project can now be compiled to check for any errors. 
 
 :::tip
-Encryption of data takes longer while the app runs in *Debug* mode. It is recommended (but not mandatory) to change the application scheme to *Relese* before running the application
+Encryption of data takes longer while the app runs in *Debug* mode. It is recommended (but not mandatory) to change the application scheme to *Release* before running the application
 :::
 
-## Initial SDK Setup 
+## **Initial SDK Setup** 
 
 The SDK is now added to your application. In order to get the features of the SDK, you need to add your `License Key`, your `Wallet`, and your `Tenant` details. 
 
 :::caution
-The information must be set using following sequence only and **MUST NOT** be changed
+The information must be set using the following sequence only and **MUST NOT** be changed
 :::
 
 :::tip
 Refer to the <a href="/mobile-sdk/api-reference" target="_blank">API Reference Guide</a> to get more details on the methods used in this section
 :::
 
-### 1. Set License Key
+### Step 1. Set License Key
 
 The license key must be called **each time** the application is launched. Internally, the SDK checks if:
 
