@@ -10,21 +10,9 @@ import TabItem from "@theme/TabItem";
 
 # Driver's License Verification
 
-
-export const Highlight = ({children, color}) => (
-  <span
-    style={{
-      backgroundColor: color,
-      borderRadius: '6px',
-      fontSize: '28px',
-      color: '#fff',
-      padding: '0.2rem',
-    }}>
-    {children}
-  </span>
-);
-
-#### <Highlight color="#d62718">COMING SOON</Highlight>
+:::tip
+Trials for ID Verify are coming soon. Please contact developer@1kosmos.com for API details
+:::
 
 
 Verify the information on a user's driver's license or state identification card. Our servers are fully integrated with **AAMVA** - the American Association of Motor Vehicle Administrators. Using AAMVA, our systems verify the information on your driver's license or identification card with the issuing Department of Motor Vehicles.    
@@ -162,26 +150,26 @@ Dummy data is included in the examples below
        "verifications": [
            "dl_verify"
        ],
-       "document": {
-           "id": "123",
-           "type": "Virginia Drivers License",
-           "category": "identity_document",
-           "firstName": "JOHN",
-           "lastName": "SMITH",
-           "middleName": "JACBOB",
-           "dob": "01011979",
-           "doi": "",
-           "doe": "02292016",
-           "documentType": "PC",
-           "gender": "2",
-           "height": "510",
-           "eyeColor": "HAZ",
-           "street": "1234 SOME BLVD",
-           "city": "ARLINGTON",
-           "state": "VA",
-           "zipCode": "22203",
-           "country": "USA",
-           "nameSuffix": ""
+        "document": {
+            "id": "123",
+            "type": "dl",
+            "category": "identity_document",
+            "firstName": "BROWN",
+            "lastName": "KATTY",
+            "middleName": "",
+            "dob": "12231982",
+            "doi": "10102011",
+            "doe": "11112023",
+            "documentType": "DL",
+            "gender": "1",
+            "height": "510",
+            "eyeColor": "BRO",
+            "street": "2301 TWEAK RD",
+            "city": "VIENNA",
+            "state": "VA",
+            "zipCode": "11111",
+            "country": "USA",
+            "nameSuffix": "Jr"
        }
    }
 }
@@ -236,17 +224,17 @@ Dummy data is included in the examples below
 {
   "data": {
     "docId": "123",
-    "docType": "123",
+    "docType": "dl",
     "certifications": [
       {
-        "docType": "123",
+        "docType": "dl",
         "docId": "123",
         "type": "aamva",
         "authority": "aamva",
-        "ts": 1646246070,
-        "verified": false,
+        "ts": 1646847927,
+        "verified": true,
         "result": {
-          "dl_number_matched": false,
+          "dl_number_matched": true,
           "dob_match": false,
           "last_name_exact_match": false,
           "last_name_fuzzy_match": false,
@@ -254,15 +242,15 @@ Dummy data is included in the examples below
           "first_name_fuzzy_match": false,
           "middle_name_exact_match": false,
           "middle_name_fuzzy_match": false,
-          "person_suffix_match": false,
-          "doc_category_match": false,
-          "doi_match": false,
+          "person_suffix_match": true,
+          "doc_category_match": true,
+          "doi_match": true,
           "doe_match": false,
-          "person_sex_match": false,
-          "person_height_match": false,
-          "person_eye_color_match": false,
+          "person_sex_match": true,
+          "person_height_match": true,
+          "person_eye_color_match": true,
           "city_match": false,
-          "state_match": false,
+          "state_match": true,
           "zip_match": false
         },
         "metadata": {
@@ -270,62 +258,109 @@ Dummy data is included in the examples below
             "xmlns:a": "http://www.w3.org/2005/08/addressing",
             "xmlns:s": "http://www.w3.org/2003/05/soap-envelope",
             "s:Body": {
-              "s:Fault": {
-                "s:Reason": {
-                  "s:Text": {
-                    "xml:lang": "en-US",
-                    "content": "DLDV VSS"
+              "xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+              "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "VerifyDriverLicenseDataResponse": {
+                "xmlns": "http://aamva.org/dldv/wsdl/2.1",
+                "VerifyDriverLicenseDataResult": {
+                  "PersonNameSuffixMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": true
+                  },
+                  "ControlData": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "MessageAddress": {
+                      "MessageOriginatorId": "P6",
+                      "TransactionLocatorId": 1711046420503180500,
+                      "MessageDestinationId": "KOS"
+                    }
+                  },
+                  "DriverLicenseExpirationDateMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": false
+                  },
+                  "PersonFirstNameExactMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": false
+                  },
+                  "AddressCityMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": false
+                  },
+                  "PersonHeightMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": true
+                  },
+                  "PersonLastNameExactMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": false
+                  },
+                  "DriverLicenseNumberMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": true
+                  },
+                  "PersonFirstNameFuzzyAlternateMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": false
+                  },
+                  "DocumentCategoryMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": true
+                  },
+                  "AddressStateCodeMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": true
+                  },
+                  "AddressLine1MatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": false
+                  },
+                  "AddressZIP5MatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": false
+                  },
+                  "DriverLicenseIssueDateMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": true
+                  },
+                  "PersonSexCodeMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": true
+                  },
+                  "PersonLastNameFuzzyPrimaryMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": false
+                  },
+                  "PersonLastNameFuzzyAlternateMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": false
+                  },
+                  "PersonBirthDateMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": false
+                  },
+                  "PersonEyeColorMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": true
+                  },
+                  "PersonFirstNameFuzzyPrimaryMatchIndicator": {
+                    "xmlns": "http://aamva.org/niem/extensions/1.0",
+                    "content": false
                   }
-                },
-                "s:Detail": {
-                  "Exception": {
-                    "xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
-                    "xmlns": "http://aamva.org/exceptions/1.0",
-                    "ControlData": {
-                      "xmlns": "http://aamva.org/niem/extensions/1.0",
-                      "MessageAddress": {
-                        "MessageOriginatorId": "P6",
-                        "TransactionLocatorId": 2875536157381225000,
-                        "MessageDestinationId": "KOS"
-                      }
-                    },
-                    "ProgramExceptions": {
-                      "ProgramException": {
-                        "ExceptionTypeCode": "I",
-                        "ExceptionActorText": "DLDV VSS",
-                        "ExceptionFatalIndicatorCode": true,
-                        "ExceptionText": "MVA did not respond in a timely fashion",
-                        "ExceptionId": "0047"
-                      }
-                    },
-                    "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance"
-                  }
-                },
-                "s:Code": {
-                  "s:Value": "s:Sender"
                 }
               }
             },
             "s:Header": {
               "a:Action": {
                 "s:mustUnderstand": 1,
-                "content": "http://aamva.org/dldv/wsdl/2.1/IDLDVService21/VerifyDriverLicenseDataExceptionTypeFault"
+                "content": "http://aamva.org/dldv/wsdl/2.1/IDLDVService21/VerifyDriverLicenseDataResponse"
               },
-              "a:MessageID": "uuid:2203021834310001    1UNISG"
+              "a:MessageID": "uuid:2203091745280001    1UNISG"
             }
           }
         },
-        "token": null,
-        "fault": {
-          "reason": "DLDV VSS",
-          "exception": {
-            "exceptionTypeCode": "I",
-            "exceptionActorText": "DLDV VSS",
-            "exceptionFatalIndicatorCode": true,
-            "exceptionText": "MVA did not respond in a timely fashion",
-            "exceptionId": "0047"
-          }
-        },
+        "token": "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",
+        "fault": null,
         "reason": null,
         "error": null
       }
@@ -377,6 +412,19 @@ The user is not authorized to make this request. Please contact your tenant comm
 
 
 The user does not have access permission to make this request. Please contact your tenant community administrator    
+
+</TabItem>
+
+<TabItem value="404" Label="404">
+
+```jsx title="404" Label="404"
+{
+  "code": 404,
+  "message": "Verification config not found."
+}
+```
+
+The `dvcID` verification config identifier could not be found. Please check your request. 
 
 </TabItem>
 
