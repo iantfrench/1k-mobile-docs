@@ -1,0 +1,31 @@
+---
+sidebar_position: 2
+slug: /webauthn
+id: webauthn
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import OTPBrowser from "./assets/otpbrowser.png";
+import BrowserWindow from "@site/src/components/BrowserWindow";
+
+# WebAuthn 
+
+WebAuthn allows users to login and authenticate using standard FIDO2 security keys (YubiKeys) and platform authenticators (device biometrics).
+
+## **How it Works**
+
+After logging in initially, users can register a compatible FIDO2 device to their account to act as an authenticator. This can be a hardware device (roaming authenticator), such as a YubiKey, or native device biometrics (platform authenticator), such as TouchID and FaceID. 
+
+After registering an authenticator, users can authenticate their identity with their enrolled device as part of your login experience.  
+
+
+### Requirements
+
+- BlockID SDK - installed and initialized with license key and tenant information.
+- Compatible FIDO2 device - this can be a hardware key, such as a YubiKey, or a device with built-in biometrics, such as a mobile device.
+
+See [Getting Started](/docs#gettingstarted) for more information on installing and initializng the BlockID SDK.
+
+
+
