@@ -49,6 +49,15 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "BlockID WebAuthN",
+      items: [
+        "webauthn/webauthn",
+        "webauthn/webauthn-register",
+        "webauthn/webauthn-login",
+      ],
+    },
+    {
+      type: "category",
       label: "BlockID Mobile SDK",
       items: [
         "mobile-sdk/mobile-sdk-overview",
