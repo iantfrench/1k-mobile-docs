@@ -10,13 +10,21 @@ import BrowserWindow from "@site/src/components/BrowserWindow";
 
 # WebAuthn 
 
-WebAuthn allows users to login and authenticate using standard FIDO2 security keys (YubiKeys) and platform authenticators (device biometrics).
+<a href="https://fidoalliance.org/fido2/fido2-web-authentication-webauthn/" target="_blank">WebAuthn</a> allows websites and applications to add FIDO-based authentication on supported browsers and platforms, allowing users to authenticate with built-in biometrics, mobile devices, and security keys. This enables a smoother login experience for your users while also providing more security over passwords alone. 
 
 ## **How it Works**
 
-After logging in initially, users can register a compatible FIDO2 device to their account to act as an authenticator. This can be a hardware device (roaming authenticator), such as a YubiKey, or native device biometrics (platform authenticator), such as TouchID and FaceID. 
+After logging in initially, users can register a compatible FIDO2 device to their account to act as an authenticator. This can be a security key, such as a YubiKey, a mobile device, or device biometrics, such as TouchID. 
 
-After registering an authenticator, users can authenticate their identity with their enrolled device as part of your login experience.  
+import WebFido from "./assets/webfido1.png";
+<img src={WebFido} alt="mobile fido" />
+
+After registering an authenticator, users can their enrolled device to authenticate their account whenever additional security is needed, such as during user login.
+
+import MobileFido from "./assets/mobilefido2.png";
+<img src={MobileFido} alt="mobile fido" />
+
+
 
 
 ### Requirements

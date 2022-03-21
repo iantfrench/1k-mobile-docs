@@ -61,8 +61,8 @@ const sidebars = {
       label: "BlockID WebAuthN",
       items: [
         "webauthn/webauthn",
-        "webauthn/webauthn-register",
-        "webauthn/webauthn-login",
+        "webauthn/webauthn-registeration",
+        "webauthn/webauthn-authentication",
       ],
     },
     {
