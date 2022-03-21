@@ -11,6 +11,7 @@
 
 // @ts-check
 
+
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
   mySidebar: [
@@ -46,15 +47,6 @@ const sidebars = {
         "idverify/id4",
         "idverify/id5",
       ],
-    },
-    {
-     type: "category",
-     label: "BlockID WebAuthN",
-     items: [
-       "webauthn/webauthn",
-       "webauthn/webauthn-register",
-       "webauthn/webauthn-login",
-     ],
     },
     {
       type: "category",
