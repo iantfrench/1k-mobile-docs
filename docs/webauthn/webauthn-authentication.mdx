@@ -10,9 +10,13 @@ import BrowserWindow from "@site/src/components/BrowserWindow";
 
 # Authenticate Using FIDO Device
 
+
+
 :::tip
 Trials for WebAuthn are coming soon. Please contact developer@1kosmos.com for API details
 :::
+
+
 
 Users can authenticate login requests and other requests using a registered FIDO device.  
 
@@ -31,49 +35,35 @@ Some basic user account and tenant information is needed to register a device. T
 
 ### Request Format
 
-<Tabs groupId="OS" className="unique-tabs">
-<TabItem value="node" label="NodeJS SDK">
-
-- Initialize the SDK and request authentication options
+- Request FIDO authentication options 
 
 ```jsx
-const loaded = await bidsdk.setupTenant({dns: "<your tenant DNS>", communityName: "<your community name>"}, "<your license key>");
-let optionsResponse = await BIDWebAuthn.authenticationOptions("<username>", "<dns>", "<displayName>", "<communityId>", "<tenantId>");
+{
+    "displayName":"<displayname>",
+    "username":"<username>",
+    "dns":"<tenant DNS>",
+    "communityId":"<tenant community name>",
+    "tenantId":"<tenant tag>"
+}
 ```
 
-</TabItem>
-</Tabs>
+### Example Authentication Options Request
 
-## **Example Authentication Options Request**
+We've provided an example request showing the authentications options flow.
 
-We've provided an example request showing the authentications options flow in NodeJS. 
 
-<Tabs groupId="OS" className="unique-tabs">
-<TabItem value="node" label="NodeJS SDK">
 
 ```jsx
-const BIDSDK = require("blockid-nodejs-helpers/BIDSDK.js");
-const loaded = await BIDSDK.setupTenant(
-  { dns: "developer.1kosmos.com", communityName: "devx" },
-  "0005c9f8-1918-40be-aa00-e319043f7eee");
-
-const BIDWebAuthn = require("blockid-nodejs-helpers/BIDWebAuthn.js");
-let optionsResponse = await BIDWebAuthn.authenticationOptions(
-  "john.doe", 
-  "developer.1kosmos.com", 
-  "john.doe", 
-  "devx", 
-  "trial", 
-);
+{
+    "displayName":"john.doe",
+    "username":"john.doe@company.com",
+    "dns":"developer.1kosmos.com",
+    "communityId":"devx",
+    "tenantId":"trial"
+}
 ```
-</TabItem>
-</Tabs>
 
-## **Example Authentication Options Response**
-
-<Tabs groupId="responses" className="unique-tabs">
-<TabItem value="200" label="200">
-
+### Example Authentication Options Response
 ```jsx title="200 OK"
 {
     "challenge":"ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnlZVzVrSWpvaVVGbHpiRTV3V1VzeU1GcHhhVGRWYjFCUlFVTlVTekE0WjFodlNuRlBaRUl5YjJwVGRtMVhVaUlzSW1GMVpDSTZJakZyWm1sa2J5NWliRzlqYTJsa0xtTnZJaXdpYzNWaUlqb2lhbTlvYm01a2IyVXlJaXdpYVdRaU9pSjJRbGxrTlhObU5rSk9lWFpvVHpCRVZtTXlNRGxYTlU5YVQwaHlabEJCWm5Wak5scHlNVWxIVVZoeklpd2laWGh3SWpveE5qUTNPREk1TWprMGZRLkFPdjhmSlR1dnlxak9pLWx1aVgxbGVsTmkwanU4Sk85SVpLTlNVeEZBUFE",
@@ -90,9 +80,6 @@ let optionsResponse = await BIDWebAuthn.authenticationOptions(
 }
 ```
 
-</TabItem>
-</Tabs>
-
 
 ## **Authentication Result**
 
@@ -101,28 +88,57 @@ Once the device authentication options have been returned you have the necessary
 
 ### Parameters
 
+- `rawId`: Authentication result raw ID
+- `authenticatorData`: Authentication options result data 
+- `signature`: Authentication options signature
+- `userHandle`: User handle 
+- `clientDataJSON`: JSON data
+- `authenticatorAttachment`: Platform or USB
 - `id`: Authentication result ID
+
 
 ### Request Format
 
-<Tabs groupId="OS" className="unique-tabs">
-<TabItem value="node" label="NodeJS SDK">
-
-- Initialize the SDK and request authentication result
+- request FIDO authentication result
 
 ```jsx
-const loaded = await bidsdk.setupTenant({dns: "<your tenant DNS>", communityName: "<your community name>"}, "<your license key>");
-let resultReponse = await BIDWebAuthn.authenticationResult("<id>");
+{
+	"rawId": "string",							
+	"response": {							
+			"authenticatorData": "<authenticaton result data>",
+			"signature": "<authenticator signatute>",
+			"userHandle": "<user handle>",
+			"clientDataJSON": "<client JSON data>"
+		},
+		"getClientExtensionResults": {},			
+		"id": "<authentication result id>",								
+		"type": "<public-key>",												
+		"communityId": "<community name>",						
+		"dns": "<tenant DNS>"							
+	}
 ```
-</TabItem>
-</Tabs>
 
-## **Example Authentication Result**
 
-We've provided an example authentication result:
+### Example Authentication Result Request
 
-<Tabs groupId="OS" className="unique-tabs">
-<TabItem value="node" label="NodeJS SDK">
+We've provided an example authentication result request:
+
+```jsx
+    {
+        "rawId":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
+        "response": {
+                "authenticatorData":"sTxe_JkWJ4iPY-X3U7gFdwPzyPVHmNZMZ1_BtHhzDVAFYjfg9A","signature":"MEUCIDYISv6ew8GLg-AzdYiHwMMnoyOcXC-VtegeZ7arOF6NAiEA0Q0Qh0yt4YqZ15nc6_8Z1SWO8-HD6UoH2QOdpgUcV44","userHandle":"5rNSLR-3OmJveN9ydF2n3YQP6XE9DpOFTNSqEX8lRNE","clientDataJSON":"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWlhsS01HVllRV2xQYVVwTFZqRlJhVXhEU21oaVIyTnBUMmxLU1ZWNlNURk9hVW81TG1WNVNubFpWelZyU1dwdmFWVkdiSHBpUlRWM1YxVnplVTFHY0hoaFZHUldZakZDVWxGVlRsVlRla0UwV2pGb2RsTnVSbEJhUlVsNVlqSndWR1J0TVZoVmFVbHpTVzFHTVZwRFNUWkpha1p5V20xc2EySjVOV2xpUnpscVlUSnNhMHh0VG5aSmFYZHBZek5XYVVscWIybGhiVGx2WW0wMWEySXlWWGxKYVhkcFlWZFJhVTlwU2pKUmJHeHJUbGhPYlU1clNrOWxXRnB2VkhwQ1JWWnRUWGxOUkd4WVRsVTVZVlF3YUhsYWJFSkNXbTVXYWs1c2NIbE5WV3hJVlZab2VrbHBkMmxhV0doM1NXcHZlRTVxVVROUFJFazFUV3ByTUdaUkxrRlBkamhtU2xSMWRubHhhazlwTFd4MWFWZ3hiR1ZzVG1rd2FuVTRTazg1U1ZwTFRsTlZlRVpCVUZFIiwib3JpZ2luIjoiaHR0cHM6Ly8xa2ZpZG8uYmxvY2tpZC5jbyIsImNyb3NzT3JpZ2luIjpmYWxzZX0"
+            },
+            "getClientExtensionResults":{},"id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
+            "type":"public-key"
+            "communityId":"devx",
+            "dns":"developer.1kosmos.com",
+}
+```
+
+
+### Example Authentication Result Response
+
 
 ```jsx title="200 OK"
 {
@@ -132,18 +148,3 @@ We've provided an example authentication result:
 }
 ```
 
-</TabItem>
-</Tabs>
-
-```jsx
-{
-    "rawId":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
-    "response":
-    {
-        "authenticatorData":"sTxe_JkWJ4iPY-X3U7gFdwPzyPVHmNZMZ1_BtHhzDVAFYjfg9A","signature":"MEUCIDYISv6ew8GLg-AzdYiHwMMnoyOcXC-VtegeZ7arOF6NAiEA0Q0Qh0yt4YqZ15nc6_8Z1SWO8-HD6UoH2QOdpgUcV44","userHandle":"5rNSLR-3OmJveN9ydF2n3YQP6XE9DpOFTNSqEX8lRNE","clientDataJSON":"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWlhsS01HVllRV2xQYVVwTFZqRlJhVXhEU21oaVIyTnBUMmxLU1ZWNlNURk9hVW81TG1WNVNubFpWelZyU1dwdmFWVkdiSHBpUlRWM1YxVnplVTFHY0hoaFZHUldZakZDVWxGVlRsVlRla0UwV2pGb2RsTnVSbEJhUlVsNVlqSndWR1J0TVZoVmFVbHpTVzFHTVZwRFNUWkpha1p5V20xc2EySjVOV2xpUnpscVlUSnNhMHh0VG5aSmFYZHBZek5XYVVscWIybGhiVGx2WW0wMWEySXlWWGxKYVhkcFlWZFJhVTlwU2pKUmJHeHJUbGhPYlU1clNrOWxXRnB2VkhwQ1JWWnRUWGxOUkd4WVRsVTVZVlF3YUhsYWJFSkNXbTVXYWs1c2NIbE5WV3hJVlZab2VrbHBkMmxhV0doM1NXcHZlRTVxVVROUFJFazFUV3ByTUdaUkxrRlBkamhtU2xSMWRubHhhazlwTFd4MWFWZ3hiR1ZzVG1rd2FuVTRTazg1U1ZwTFRsTlZlRVpCVUZFIiwib3JpZ2luIjoiaHR0cHM6Ly8xa2ZpZG8uYmxvY2tpZC5jbyIsImNyb3NzT3JpZ2luIjpmYWxzZX0"
-        },
-        "authenticatorAttachment":"platform",
-        "getClientExtensionResults":{},"id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
-        "type":"public-key"
-        }
-```

@@ -8,7 +8,6 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import BrowserWindow from "@site/src/components/BrowserWindow";
 
-
 # Register FIDO Device 
 
 :::tip
@@ -36,48 +35,37 @@ Some basic user account and tenant information is needed to register a device. T
 
 ### Request Format
 
-<Tabs groupId="OS" className="unique-tabs">
-<TabItem value="node" label="NodeJS SDK">
-
-- Initialize the SDK and request attestation options
+- Request FIDO device registration options
 
 ```jsx
-const loaded = await bidsdk.setupTenant({dns: "<your tenant DNS>", communityName: "<your community name>"}, "<your license key>");
-let optionsResponse = await BIDWebAuthn.registrationOptions("<username>", "<dns>", "<displayName>", "<communityId>", "<tenantId>", "<attestation>");
+{
+    "displayName":"<displayname>",
+    "username":"<username>",
+    "dns":"<tenant DNS>",
+    "communityId":"<tenant community name>",
+    "tenantId":"<tenant tag>",
+    "attestation":"<none>"
+}
 ```
-</TabItem>
-</Tabs>
 
-## **Example Registration Options Request**
 
-We've provided an example request showing the attestation options flow in NodeJS. 
+### Example Registration Options Request
 
-<Tabs groupId="OS" className="unique-tabs">
-<TabItem value="node" label="NodeJS SDK">
+We've provided an example request showing the registration options flow.
 
 ```jsx
-const BIDSDK = require("blockid-nodejs-helpers/BIDSDK.js");
-const loaded = await BIDSDK.setupTenant(
-  { dns: "developer.1kosmos.com", communityName: "devx" },
-  "0005c9f8-1918-40be-aa00-e319043f7eee");
-
-const BIDWebAuthn = require("blockid-nodejs-helpers/BIDWebAuthn.js");
-let optionsResponse = await BIDWebAuthn.registrationOptions(
-  "john.doe", 
-  "developer.1kosmos.com", 
-  "john.doe", 
-  "devx", 
-  "trial", 
-  "none"
-);
+{
+    "displayName":"john.doe",
+    "username":"john.doe@company.com",
+    "dns":"developer.1kosmos.com",
+    "communityId":"devx",
+    "tenantId":"trial",
+    "attestation":"none"
+}
 ```
-</TabItem>
-</Tabs>
 
-## **Example Registration Options Response**
 
-<Tabs groupId="responses" className="unique-tabs">
-<TabItem value="200" label="200">
+### Example Registration Options Response
 
 ```jsx title="200 OK"
 {
@@ -107,8 +95,7 @@ let optionsResponse = await BIDWebAuthn.registrationOptions(
         }
 }
 ```
-</TabItem>
-</Tabs>
+
 
 
 
@@ -118,54 +105,69 @@ Once the device registration options are returned, the device can be registered.
 
 ### Parameters
 
+- `rawId`: Registration result raw ID
+- `attestationObject`: Registration attestation object
+- `getAuthenticatorData`: Authenticator data
+- `getPublicKey`: Device public key 
+- `getPublicKeyAlgorithm`: Device public key algorithm
+- `getTransports`: Device transports
+- `clientDataJSON`: Client data in JSON format
+- `authenticatorAttachment`: Device attachment type
+- `getClientExtensionResults`: Extension results
 - `id`: Registration result ID
-- `type`: Public Key
+- `type`: Public-key
+- `dns`: Tenant DNS
+- `displayName`: Username to display 
+- `communityId`: Community name 
+- `tenantId`: Tenant tag
 
 
 
 ### Request Format
 
-<Tabs groupId="OS" className="unique-tabs">
-<TabItem value="node" label="NodeJS SDK">
 
 - Initialize the SDK and request registration result
 
 ```jsx
-const loaded = await bidsdk.setupTenant({dns: "<your tenant DNS>", communityName: "<your community name>"}, "<your license key>");
-let resultReponse = await BIDWebAuthn.registrationResult("<id>", "<type>");
-```
-</TabItem>
-</Tabs>
+ {
+		"rawId": "<raw ID>",
+		"response": {
+			"attestationObject": "<attestation object>",
+			"getAuthenticatorData": {},
+			"getPublicKey": {},
+			"getPublicKeyAlgorithm": {},
+			"getTransports": {},
+			"clientDataJSON": "<client data>"
+		},
+		"authenticatorAttachment": "<authenticator attachment>",
+		"getClientExtensionResults": {},
+		"id": "<registration ID>",
+		"type": "public-key",
+		"dns": "<tenant DNS>",
+		"communityId": "<tenant name>",
+		"tenantId": "<tenant tag>"
+	}
+```  
 
-## **Example Registration Result**
+### Example Registration Result
 
 We've provided an example registration result:
 
-
-
-<Tabs groupId="OS" className="unique-tabs">
-<TabItem value="node" label="NodeJS SDK">
-
-```jsx
-const BIDSDK = require("blockid-nodejs-helpers/BIDSDK.js");
-const loaded = await BIDSDK.setupTenant(
-  { dns: "developer.1kosmos.com", communityName: "devx" },
-  "0005c9f8-1918-40be-aa00-e319043f7eee");
-
-const BIDWebAuthn = require("blockid-nodejs-helpers/BIDWebAuthn.js");
-let resultResponse = await BIDWebAuthn.registrationResult(
-  "AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw", 
-  "public-key", 
-);
+```jsx 
+{
+  "rawId":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
+  "response":
+  {
+    "authenticatorData":"sTxe_JkWJ4iPY-X3U7gFdwPzyPVHmNZMZ1_BtHhzDVAFYjfg9A","signature":"MEUCIDYISv6ew8GLg-AzdYiHwMMnoyOcXC-VtegeZ7arOF6NAiEA0Q0Qh0yt4YqZ15nc6_8Z1SWO8-HD6UoH2QOdpgUcV44","userHandle":"5rNSLR-3OmJveN9ydF2n3YQP6XE9DpOFTNSqEX8lRNE","clientDataJSON":"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWlhsS01HVllRV2xQYVVwTFZqRlJhVXhEU21oaVIyTnBUMmxLU1ZWNlNURk9hVW81TG1WNVNubFpWelZyU1dwdmFWVkdiSHBpUlRWM1YxVnplVTFHY0hoaFZHUldZakZDVWxGVlRsVlRla0UwV2pGb2RsTnVSbEJhUlVsNVlqSndWR1J0TVZoVmFVbHpTVzFHTVZwRFNUWkpha1p5V20xc2EySjVOV2xpUnpscVlUSnNhMHh0VG5aSmFYZHBZek5XYVVscWIybGhiVGx2WW0wMWEySXlWWGxKYVhkcFlWZFJhVTlwU2pKUmJHeHJUbGhPYlU1clNrOWxXRnB2VkhwQ1JWWnRUWGxOUkd4WVRsVTVZVlF3YUhsYWJFSkNXbTVXYWs1c2NIbE5WV3hJVlZab2VrbHBkMmxhV0doM1NXcHZlRTVxVVROUFJFazFUV3ByTUdaUkxrRlBkamhtU2xSMWRubHhhazlwTFd4MWFWZ3hiR1ZzVG1rd2FuVTRTazg1U1ZwTFRsTlZlRVpCVUZFIiwib3JpZ2luIjoiaHR0cHM6Ly8xa2ZpZG8uYmxvY2tpZC5jbyIsImNyb3NzT3JpZ2luIjpmYWxzZX0"
+  },
+    "authenticatorAttachment":"platform",
+    "getClientExtensionResults":{},"id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
+    "type":"public-key"
+}
 ```
-</TabItem>
-</Tabs>
 
-## **Example Registration Result Response**
+### Example Registration Result Response
 
-
-<Tabs groupId="responses" className="unique-tabs">
-<TabItem value="200" label="200">
 
 ```jsx title="200 OK"
 {
@@ -175,24 +177,4 @@ let resultResponse = await BIDWebAuthn.registrationResult(
 }
 ```
 
-</TabItem>
-</Tabs>
 
-
-
-```jsx 
-{
-  "rawId":"ATMdzpbckdNfrU5e8FuXihPT9Wof1TaYh5PFabgsnV6eV1WxscJiY4rWWJQ8v9Qru8Get27SY8C4YI2gR5xuVvKtXXu7zLajT2bIaeXPJEUo",
-  "response": {
-    "attestationObject":"o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YVjVsTxe_JkWJ4iPY-X3U7gFdwPzyPVHmNZMZ1_BtHhzDVBFYjfas63OAAI1vMYKZIsLJfHwVQMAUQEzHc6W3JHTX61OXvBbl4oT0_VqH9U2mIeTxWm4LJ1enldVsbHCYmOK1liUPL_UK7vBnrdu0mPAuGCNoEecblbyrV17u8y2o09myGnlzyRFKKUBAgMmIAEhWCD_-crqWN-M1OTwWjLEt947WhGXpI2yZYj3gmLjomUG4yJYIDeOWiEDLWMn6ebGvI11RuRsrpSGokCSsSGXVqaHGZJN",
-    "getAuthenticatorData":{},
-    "getPublicKey":{},
-    "getPublicKeyAlgorithm":{},
-    "getTransports":{},"clientDataJSON":"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiWlhsS01HVllRV2xQYVVwTFZqRlJhVXhEU21oaVIyTnBUMmxLU1ZWNlNURk9hVW81TG1WNVNubFpWelZyU1dwdmFWSkdjRmxPYmxKeVYxVkdkRlJHYjNoTVZrbzFWMjVDVFZwVk5XaE9NMnhRWVVoR05GTkVWbk5oVjFJMVdXa3dNbEZ1UmpaUlUwbHpTVzFHTVZwRFNUWkpha1p5V20xc2EySjVOV2xpUnpscVlUSnNhMHh0VG5aSmFYZHBZek5XYVVscWIybGhiVGx2WW0xU2RscFRTWE5KYlVZeFpFZG9lbHBYZUd4Wk0xSndZakkwYVU5cFNXbE1RMHBvWkVoU2JHTXpVbWhrUjJ4MlltbEpOa2x0TlhaaWJWVnBURU5LY0ZwRFNUWkphMnhwWTFWMFUxRlhPVEJqYkVaSFlWaGpNbVJ0VmxoUmExSXlZMVZrYzAxNlVuVlZhMjk0WVZocmRFNXROVWhQUXpGV1ltcE9WR015WTJsTVEwcHNaVWhCYVU5cVJUSk9SR00wVFdwak1rOVVSamt1TFRaNlRDMXZhMmx4ZFhwRmExZG5TbFl6Um1kS1RWRlhibkpPUkhOcVNIWlhRMDFwZGs5ZmQzbDNXUSIsIm9yaWdpbiI6Imh0dHBzOi8vMWtmaWRvLmJsb2NraWQuY28iLCJjcm9zc09yaWdpbiI6ZmFsc2V9"
-    },
-    "authenticatorAttachment":"platform",
-    "getClientExtensionResults":{},
-    "id":"ATMdzpbckdNfrU5e8FuXihPT9Wof1TaYh5PFabgsnV6eV1WxscJiY4rWWJQ8v9Qru8Get27SY8C4YI2gR5xuVvKtXXu7zLajT2bIaeXPJEUo",
-    "type":"public-key"
-  }
-```
