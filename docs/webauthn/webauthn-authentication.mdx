@@ -64,22 +64,30 @@ We've provided an example request showing the authentications options flow.
 ```
 
 ### Example Authentication Options Response
+
 ```jsx title="200 OK"
 {
-    "challenge":"ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnlZVzVrSWpvaVVGbHpiRTV3V1VzeU1GcHhhVGRWYjFCUlFVTlVTekE0WjFodlNuRlBaRUl5YjJwVGRtMVhVaUlzSW1GMVpDSTZJakZyWm1sa2J5NWliRzlqYTJsa0xtTnZJaXdpYzNWaUlqb2lhbTlvYm01a2IyVXlJaXdpYVdRaU9pSjJRbGxrTlhObU5rSk9lWFpvVHpCRVZtTXlNRGxYTlU5YVQwaHlabEJCWm5Wak5scHlNVWxIVVZoeklpd2laWGh3SWpveE5qUTNPREk1TWprMGZRLkFPdjhmSlR1dnlxak9pLWx1aVgxbGVsTmkwanU4Sk85SVpLTlNVeEZBUFE",
-    "rpId":"1kfido.blockid.co",
-    "timeout":60000,
-    "userVerification":"preferred",
-    "allowCredentials":[
-        {
-        "type":"public-key",
-        "id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw"
-        }],
-        "status":"ok",
-        "errorMessage":""
+		"challenge":"XlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnlZVzVrSWpvaVVGbHpiRTV3V1VzeU1GcHhhVGRWYjFCUlFVTlVTekE0WjFodlNuRlBaRUl5YjJwVGRtMVhVaUlzSW1GMVpDSTZJakZyWm1sa2J5NWliRzlqYTJsa0xtTnZJaXdpYzNWaUlqb2lhbTlvYm01a2IyVXlJaXdpYVdRaU9pSjJRbGxrTlhObU5rSk9lWFpvVHpCRVZtTXlNRGxYTlU5YVQwaHlabEJCWm5Wak5scHlNVWxIVVZoeklpd2laWGh3SWpveE5qUTNPREk1TWprMGZRLkFPdjhmSlR1dnlxak9pLWx1aVgxbGVsTmkwanU4Sk85SVpLTlNVeEZBUFE",
+		"rpId": "1kfido.blockid.co",
+		"timeout": 60000,
+		"userVerification": "preferred",
+		"allowCredentials": [{
+			"type": "public-key",
+			"transports": ["internal"],
+			"id": "string"
+		}, {
+			"type": "public-key",
+			"transports": ["internal"],
+			"id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw"
+		}, {
+			"type": "public-key",
+			"transports": ["usb", "ble", "nfc"...],
+			"id": "string"
+		}],
+		"status": "ok",
+		"errorMessage": ""
 }
 ```
-
 
 ## **Authentication Result**
 

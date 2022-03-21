@@ -68,31 +68,34 @@ We've provided an example request showing the registration options flow.
 ### Example Registration Options Response
 
 ```jsx title="200 OK"
-{
-  "rp":
-  {
-    "name":"1kfido.blockid.co","id":"1kfido.blockid.co"
-  },
-  "user":
-  {
-    "id":"5rNSLR-3OmJveN9ydF2n3YQP6XE9DpOFTNSqEX8lRNE",
-    "name":"john.doe",
-    "displayName":"john.doe"
-    },
-    "attestation":"none",
-    "pubKeyCredParams":[
-      {"type":"public-key",
-      "alg":-7
-      }],
-      "timeout":60000,
-      "authenticatorSelection":{
-        "userVerificationRequirement":"preferred",
-        "requireResidentKey":false
-        },"challenge":"ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnlZVzVrSWpvaWIyeDZTV1ZMVDBacE1XVjJOazlKY1ZGaGEwNXdkVkZtU25abGVXUTRTa0pYTTJKRmJ6WTNVU0lzSW1GMVpDSTZJakZyWm1sa2J5NWliRzlqYTJsa0xtTnZJaXdpYzNWaUlqb2lhbTlvYm01a2IyVXlJaXdpWVhWMGFITmxiR1ZqZEdsdmJpSTZJaUlzSW1GMGRHVnpkR0YwYVc5dUlqb2libTl1WlNJc0ltbGtJam9pTlhKT1UweFNMVE5QYlVwMlpVNDVlV1JHTW00eldWRlFObGhGT1VSd1QwWlVUbE54UlZnNGJGSk9SU0lzSW1WNGNDSTZNVFkwTnpneU9EazJOMzAuNkNwMTVHRVVQcjMtd0JFdV84UlVXUXpEOGMxc0V3S1NnS19JcXBVYnhwQQ",
-        "excludeCredentials":[],
-        "status":"ok",
-        "errorMessage":""
-        }
+ { 
+			"rp": {
+				"name": "1kfido.blockid.co","id":"1kfido.blockid.co",
+				"id": "5rNSLR-3OmJveN9ydF2n3YQP6XE9DpOFTNSqEX8lRNE"
+			},
+			"user": {
+				"id": "u_G6bV8cwxY11ODyVcxR-ySp08a2EY6_9P8DQ8eojwg",
+				"name": "john.doe",
+				"displayName": "john.doe"
+			},
+			"attestation": "none",
+			"pubKeyCredParams": [{
+				"type": "public-key",
+				"alg": -7
+			}],
+			"timeout": 60000,
+			"authenticatorSelection": {
+				"userVerification": "preferred",
+				"requireResidentKey": false
+			},
+			"challenge":"ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnlZVzVrSWpvaWIyeDZTV1ZMVDBacE1XVjJOazlKY1ZGaGEwNXdkVkZtU25abGVXUTRTa0pYTTJKRmJ6WTNVU0lzSW1GMVpDSTZJakZyWm1sa2J5NWliRzlqYTJsa0xtTnZJaXdpYzNWaUlqb2lhbTlvYm01a2IyVXlJaXdpWVhWMGFITmxiR1ZqZEdsdmJpSTZJaUlzSW1GMGRHVnpkR0YwYVc5dUlqb2libTl1WlNJc0ltbGtJam9pTlhKT1UweFNMVE5QYlVwMlpVNDVlV1JHTW00eldWRlFObGhGT1VSd1QwWlVUbE54UlZnNGJGSk9SU0lzSW1WNGNDSTZNVFkwTnpneU9EazJOMzAuNkNwMTVHRVVQcjMtd0JFdV84UlVXUXpEOGMxc0V3S1NnS19JcXBVYnhwQQ",
+			"excludeCredentials": [{
+				"type": "string",
+				"id": "string"
+			}, {...}
+			],
+			"status": "ok",
+			"errorMessage": ""
 }
 ```
 
@@ -129,31 +132,31 @@ Once the device registration options are returned, the device can be registered.
 - Initialize the SDK and request registration result
 
 ```jsx
- {
-		"rawId": "<raw ID>",
-		"response": {
-			"attestationObject": "<attestation object>",
-			"getAuthenticatorData": {},
-			"getPublicKey": {},
-			"getPublicKeyAlgorithm": {},
-			"getTransports": {},
-			"clientDataJSON": "<client data>"
-		},
-		"authenticatorAttachment": "<authenticator attachment>",
-		"getClientExtensionResults": {},
-		"id": "<registration ID>",
-		"type": "public-key",
-		"dns": "<tenant DNS>",
-		"communityId": "<tenant name>",
-		"tenantId": "<tenant tag>"
-	}
-```  
+{
+  "rawId":"<raw ID>,
+  "response":
+  {
+    "authenticatorData":"<authenticator data>",
+    "signature":"<device signature>",
+    "userHandle":"<user handle>",
+    "clientDataJSON":"<client json>"
+  },
+    "authenticatorAttachment":"platform",
+    "getClientExtensionResults":{},
+    "id":"<id>",
+    "type":"public-key",
+     "dns": "<tenand DNS>",						
+	 "communityId": "<community name>",				
+	 "tenantId": "<tenant tag>"				
+}
+```
+
 
 ### Example Registration Result
 
 We've provided an example registration result:
 
-```jsx 
+```jsx
 {
   "rawId":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
   "response":
@@ -161,8 +164,12 @@ We've provided an example registration result:
     "authenticatorData":"sTxe_JkWJ4iPY-X3U7gFdwPzyPVHmNZMZ1_BtHhzDVAFYjfg9A","signature":"MEUCIDYISv6ew8GLg-AzdYiHwMMnoyOcXC-VtegeZ7arOF6NAiEA0Q0Qh0yt4YqZ15nc6_8Z1SWO8-HD6UoH2QOdpgUcV44","userHandle":"5rNSLR-3OmJveN9ydF2n3YQP6XE9DpOFTNSqEX8lRNE","clientDataJSON":"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWlhsS01HVllRV2xQYVVwTFZqRlJhVXhEU21oaVIyTnBUMmxLU1ZWNlNURk9hVW81TG1WNVNubFpWelZyU1dwdmFWVkdiSHBpUlRWM1YxVnplVTFHY0hoaFZHUldZakZDVWxGVlRsVlRla0UwV2pGb2RsTnVSbEJhUlVsNVlqSndWR1J0TVZoVmFVbHpTVzFHTVZwRFNUWkpha1p5V20xc2EySjVOV2xpUnpscVlUSnNhMHh0VG5aSmFYZHBZek5XYVVscWIybGhiVGx2WW0wMWEySXlWWGxKYVhkcFlWZFJhVTlwU2pKUmJHeHJUbGhPYlU1clNrOWxXRnB2VkhwQ1JWWnRUWGxOUkd4WVRsVTVZVlF3YUhsYWJFSkNXbTVXYWs1c2NIbE5WV3hJVlZab2VrbHBkMmxhV0doM1NXcHZlRTVxVVROUFJFazFUV3ByTUdaUkxrRlBkamhtU2xSMWRubHhhazlwTFd4MWFWZ3hiR1ZzVG1rd2FuVTRTazg1U1ZwTFRsTlZlRVpCVUZFIiwib3JpZ2luIjoiaHR0cHM6Ly8xa2ZpZG8uYmxvY2tpZC5jbyIsImNyb3NzT3JpZ2luIjpmYWxzZX0"
   },
     "authenticatorAttachment":"platform",
-    "getClientExtensionResults":{},"id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
-    "type":"public-key"
+    "getClientExtensionResults":{},
+    "id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
+    "type":"public-key",
+    "dns": "developer.1kosmos.com",						
+	  "communityId": "devx",			
+	  "tenantId": "trial"				
 }
 ```
 
