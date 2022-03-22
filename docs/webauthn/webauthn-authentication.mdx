@@ -111,7 +111,7 @@ Once the device authentication options have been returned you have the necessary
 
 ```jsx
 {
-	"rawId": "string",							
+	"rawId": "<raw ID>",							
 	"response": {							
 			"authenticatorData": "<authenticaton result data>",
 			"signature": "<authenticator signatute>",
@@ -121,7 +121,8 @@ Once the device authentication options have been returned you have the necessary
 		"getClientExtensionResults": {},			
 		"id": "<authentication result id>",								
 		"type": "<public-key>",												
-		"communityId": "<community name>",						
+		"tenantId":"<tenant tag>",
+                "communityId": "<community name>",						
 		"dns": "<tenant DNS>"							
 	}
 ```
@@ -135,10 +136,15 @@ We've provided an example authentication result request:
     {
         "rawId":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
         "response": {
-                "authenticatorData":"sTxe_JkWJ4iPY-X3U7gFdwPzyPVHmNZMZ1_BtHhzDVAFYjfg9A","signature":"MEUCIDYISv6ew8GLg-AzdYiHwMMnoyOcXC-VtegeZ7arOF6NAiEA0Q0Qh0yt4YqZ15nc6_8Z1SWO8-HD6UoH2QOdpgUcV44","userHandle":"5rNSLR-3OmJveN9ydF2n3YQP6XE9DpOFTNSqEX8lRNE","clientDataJSON":"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWlhsS01HVllRV2xQYVVwTFZqRlJhVXhEU21oaVIyTnBUMmxLU1ZWNlNURk9hVW81TG1WNVNubFpWelZyU1dwdmFWVkdiSHBpUlRWM1YxVnplVTFHY0hoaFZHUldZakZDVWxGVlRsVlRla0UwV2pGb2RsTnVSbEJhUlVsNVlqSndWR1J0TVZoVmFVbHpTVzFHTVZwRFNUWkpha1p5V20xc2EySjVOV2xpUnpscVlUSnNhMHh0VG5aSmFYZHBZek5XYVVscWIybGhiVGx2WW0wMWEySXlWWGxKYVhkcFlWZFJhVTlwU2pKUmJHeHJUbGhPYlU1clNrOWxXRnB2VkhwQ1JWWnRUWGxOUkd4WVRsVTVZVlF3YUhsYWJFSkNXbTVXYWs1c2NIbE5WV3hJVlZab2VrbHBkMmxhV0doM1NXcHZlRTVxVVROUFJFazFUV3ByTUdaUkxrRlBkamhtU2xSMWRubHhhazlwTFd4MWFWZ3hiR1ZzVG1rd2FuVTRTazg1U1ZwTFRsTlZlRVpCVUZFIiwib3JpZ2luIjoiaHR0cHM6Ly8xa2ZpZG8uYmxvY2tpZC5jbyIsImNyb3NzT3JpZ2luIjpmYWxzZX0"
+                "authenticatorData":"sTxe_JkWJ4iPY-X3U7gFdwPzyPVHmNZMZ1_BtHhzDVAFYjfg9A",
+                "signature":"MEUCIDYISv6ew8GLg-AzdYiHwMMnoyOcXC-VtegeZ7arOF6NAiEA0Q0Qh0yt4YqZ15nc6_8Z1SWO8-HD6UoH2QOdpgUcV44",
+                "userHandle":"5rNSLR-3OmJveN9ydF2n3YQP6XE9DpOFTNSqEX8lRNE",
+                "clientDataJSON":"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWlhsS01HVllRV2xQYVVwTFZqRlJhVXhEU21oaVIyTnBUMmxLU1ZWNlNURk9hVW81TG1WNVNubFpWelZyU1dwdmFWVkdiSHBpUlRWM1YxVnplVTFHY0hoaFZHUldZakZDVWxGVlRsVlRla0UwV2pGb2RsTnVSbEJhUlVsNVlqSndWR1J0TVZoVmFVbHpTVzFHTVZwRFNUWkpha1p5V20xc2EySjVOV2xpUnpscVlUSnNhMHh0VG5aSmFYZHBZek5XYVVscWIybGhiVGx2WW0wMWEySXlWWGxKYVhkcFlWZFJhVTlwU2pKUmJHeHJUbGhPYlU1clNrOWxXRnB2VkhwQ1JWWnRUWGxOUkd4WVRsVTVZVlF3YUhsYWJFSkNXbTVXYWs1c2NIbE5WV3hJVlZab2VrbHBkMmxhV0doM1NXcHZlRTVxVVROUFJFazFUV3ByTUdaUkxrRlBkamhtU2xSMWRubHhhazlwTFd4MWFWZ3hiR1ZzVG1rd2FuVTRTazg1U1ZwTFRsTlZlRVpCVUZFIiwib3JpZ2luIjoiaHR0cHM6Ly8xa2ZpZG8uYmxvY2tpZC5jbyIsImNyb3NzT3JpZ2luIjpmYWxzZX0"
             },
-            "getClientExtensionResults":{},"id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
+            "getClientExtensionResults":{},
+            "id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
             "type":"public-key"
+            "tenantId":"trial",          
             "communityId":"devx",
             "dns":"developer.1kosmos.com",
 }
@@ -155,4 +161,3 @@ We've provided an example authentication result request:
     "status": "ok"
 }
 ```
-
