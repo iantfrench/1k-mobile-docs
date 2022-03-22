@@ -7,19 +7,27 @@ id: mobile-sdk-integration-guide-android
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import Android1 from "./assets/img/android-01.png";
+import Android2 from "./assets/img/android-02.png";
+import Android3 from "./assets/img/android-03.png";
+import Android4 from "./assets/img/android-04.png";
+import Android5 from "./assets/img/android-05.png";
+import Android6 from "./assets/img/android-06.png";
+import Android7 from "./assets/img/android-07.png";
+import Android8 from "./assets/img/android-08.png";
+import Android9 from "./assets/img/android-09.png";
+import Android10 from "./assets/img/android-10.png";
 
 # Android Integration Guide
 
-## **Introduction**
+This document provides a step by step guide on how to install, integrate and initialize the BlockID SDK into any Android applications.
 
-The goal of the Android BlockID Mobile SDK documentation is to give any developer with Android experience the knowledge and understanding required to create . . .
 
-In addition to detailing how to use the Android version of the BlockID Mobile SDK, this documentation describes . . . 
 
 
 ## **Prerequisites**
 
-Several general and specific Android prerequisites are required to develop an application with the Android version of the BlockID Mobile SDK.
+There are a few general and platform-specific dependencies required to integrate BlockID SDK into an Android application. Developers should take note of the following requirements: 
 
 ### General
 
@@ -29,49 +37,357 @@ Several general and specific Android prerequisites are required to develop an ap
 
 ### Android 
 
-- Android API Level 23 or higher
-- Android Studio 1.5 or higher
-- Device support
-    - Samsung S7, S8, A30, Fold 
-    - Google Pixel 3, Pixel 4a
+- Android API Level 23 (Mashmallow) / Android OS 6.0 or higher
+- Android Studio Bumblebee
+- Device support - all devices running Android OS 6.0 and higher
+- Target Java 8 - Java 7 *is not* binary compatible with the BlockID SDK
 
-:::tip **Note**:
-Support for additional Android devices available as testing and development continues
+:::tip
+The BlockID SDK currently supports up to Android OS 12.x
 :::
 
-## **Integrate SDK into Application**
 
-The examples below import the BlockID SDK into a new Android project. The same steps can be used for integration into an existing application.
+## **Get Started immediately**
 
-### Android Studio Project Integration
+Developers can download the Android BlockID Demo Application to immediately run the code and see how the BlockID SDK can be used.
 
-:::note Screenshots in this section are generated using Android Studio 4.0.
+- <a href="https://github.com/1KBlockID/android-blockid-demo-app" target="_blank">Android Application</a>
+
+## **Integration Overview**
+
+This section explains the step by step guide on how to setup and integrate the BlockID SDK in an Android application.
+
+:::tip 
+The examples provided below demonstrate the integration steps of the BlockID SDK into a new Android project
+
+The same steps can also be used for integration into an existing application
 :::
 
-#### Create a New Application
 
-- Step 1
-- Step 2
-- Step 3
+:::note
+Screenshots in this section are generated using Android Studio Bumblebee for macOS
+:::
 
-#### Install SDK in the Project
+### Step 1: Create a New Application
 
-As of writing this document, the BlockID Android SDK can only be installed using the manual process as described below:
+- Open `Android Studio`
+- From the *Welcome Screen*, click *New Project*
 
-#### Download the BlockID SDK
+<img src={Android1} />
 
-- Step 1 
-- Step 2 
-- Step 3 
+- From the *New Project* screen, select a template and press *Next* 
 
-#### Adding Required Android Libraries 
+<img src={Android2} />
 
-- Step 1 
-- Step 2 
-- Step 3 
+- Enter a project name, such as *BlockID Demo*
+- Update any additional parameters, such as *location* or *language* (optional)
+- Set the *Minimum SDK* to *API 23: Android 6.0 (Mashmallow)*
 
-## **Application Deployment**
+<img src={Android3} />
 
-### Android Studio Configuration
+- Click *Finish* and wait a few moments for the project to finish configuring itself 
 
-Deploying an Android application using the BlockID Mobile SDK does not require any additional steps outside of the typical process
+### Step 2: Add BlockID SDK
+
+Now that our project has been created, we can add the BlockID SDK. 
+
+- Using the terminal, clone the Android BlockID SDK
+
+```shell 
+git clone https://github.com/1KBlockID/android-blockidsdk.git 
+```
+
+- In Finder / Explorer, navigate to folder you just cloned  and copy the `./BlockIDSDK-release/BlockIDSDK-release.aar` file
+
+<img src={Android6} />
+
+- Navigate to the Android Studio project directory and paste `BlockIDSDK-release.aar` into `./app/libs`
+
+<img src={Android7} />
+
+-  In Android Studio, open *Module: build.gradle* and add the following lines: 
+
+```java 
+// Add BlockIDSDK dependency
+implementation files('libs/BlockIDSDK-release.aar')
+```
+
+- Sync the changes and build the project
+
+<img src={Android8} />
+
+:::note 
+The application must be compiled successfully
+:::
+
+### Step 3: Java Compatibility
+
+:::
+caution
+The BlockID SDK is not binary compatible with applications that target Java 7
+:::
+
+In order to use the SDK you must upgrade your applications to target Java 8.
+
+Below is a snippet for reference: 
+
+```java
+android {
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+```
+
+### Step 4: Enable Permissions
+
+The BlockID SDK provides scanning features for various documents for which the application must enable and ask for permission to use. To be compatible with Android API Version 23 and later, you will need to ensure that your application is set to request runtime permissions for the camera (and others per project requirements). 
+
+To enable camera permissions, the following steps must be taken.  
+
+#### 4.1 Add Permissions 
+
+Add the following codeblock to your application `AndroidManifest.xml` 
+
+```jsx
+// Add camera permission
+<uses-permission android:name="android.permission.CAMERA" />
+
+// other permissions ...
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
+
+#### 4.2 Request Camera Permission 
+
+In you application code, request to use camera permissions: 
+
+```java
+ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.{your_permission}, PERMISSION_REQUEST_CODE );
+```
+
+### Step 5: Add Gradle Dependencies
+
+The BlockID SDK has dependencies from other libraries it uses. You will need to add those dependencies to your project. 
+
+#### 5.1 Project Level Dependencies 
+
+Add the following dependencies at the **project level** `build.gradle` file: 
+
+```java 
+allprojects {
+   repositories {
+       google()
+       jcenter()
+       mavenCentral()
+       maven { url "https://jitpack.io" }
+       maven { url 'http://www.baka.sk/maven2' }
+   }
+}
+```
+
+#### 5.2 Application Level Dependencies
+
+The following section contains all the dependencies (along with their respective purpose) that need to be added at the **application level**  `build.gradle` file:
+
+```java 
+// Gson
+com.google.code.gson:gson:2.8.5
+
+// secure shared preference
+androidx.security:security-crypto:1.0.0-rc04
+
+// lifecycle-extensions
+androidx.lifecycle:lifecycle-extensions:2.2.0
+androidx.lifecycle:lifecycle-runtime:2.2.0
+
+// QR code scan and Driver's License scanning
+com.google.android.gms:play-services-vision:20.1.3
+
+// wallet
+org.web3j:core:3.3.1-android
+
+// generate mnemonics
+implementation('org.bitcoinj:bitcoinj-core:0.15.4') {
+  exclude group: 'com.google.protobuf', module: 'protobuf-java'
+}
+
+// fingerprint and biometric
+androidx.biometric:biometric:1.1.0
+org.jetbrains:annotations:16.0.1
+
+// base32 encode/decode
+commons-codec:commons-codec:1.10
+
+// network call
+com.amitshekhar.android:android-networking:1.0.2
+
+// passport scan
+implementation('org.jmrtd:jmrtd:0.7.19') {
+  exclude module: 'bcprov-jdk15on'
+  exclude module: 'bctls-jdk15on'
+}
+
+// mrz scan
+org.innovatrics.mrz:mrz-java:0.4
+
+// RFID scan
+androidx.multidex:multidex:2.0.1
+net.sf.scuba:scuba-sc-android:0.0.20
+com.madgag.spongycastle:prov:1.54.0.0
+com.github.mhshams:jnbis:1.1.0
+com.gemalto.jp2:jp2-android:1.0
+
+// filter document
+com.annimon:stream:1.2.2
+
+// CameraX
+androidx.camera:camera-camera2:1.1.0-alpha12
+androidx.camera:camera-camera2:1.1.0-alpha12
+androidx.camera:camera-view:1.0.0-alpha32
+
+// LiveID
+com.google.android.gms:play-services-mlkit-face-detection:16.1.7
+com.google.guava:guava:27.1-android
+
+// text recognition
+com.google.android.gms:play-services-mlkit-text-recognition:17.0.0
+
+// barcode detector
+com.google.mlkit:barcode-scanning:17.0.0
+
+// image processing
+com.quickbirdstudios:opencv:4.5.2
+```
+
+### Step 6: Enable Proguard 
+
+If you wish to obfuscate your application code, create or edit your `proguard-rule.pro` file and include the following lines: 
+
+```java 
+-keep class com.onekosmos.blockid.sdk.** { *; }
+-keep public class org.** { *; }
+```
+### Step 7: Application Deployment 
+
+Deploying your Android application once integrated with the BlockID SDK does not require any additional steps to your deployment process.
+
+## Initial SDK Setup 
+
+The BlockID SDK should now be fully added to your application at this point. 
+
+In order to use the features of the BlockID SDK, you must **add your *License Key*, *Wallet*, and *Tenant* details**. 
+
+:::caution 
+The information must be set using following sequence only and **MUST NOT** be changed
+:::
+
+:::tip 
+Please refer to the <a href="/api-reference" target="_blank">API reference guide</a> for mre details on the methods used in this section 
+:::
+
+
+### Step 1: Initialize SDK
+
+The BlockID SDK must be initialized to ensure that all its key components are setup and working. Any other SDK functions can only be used once the initialization process has been completed. 
+
+Add the following line to your application code to initialize the BlockID SDK:
+
+```java
+BlockIDSDK.initialize(<the_context>);
+```
+
+### Step 2: Set License Key 
+
+:::tip 
+The license key must be set on every launch of the application
+:::
+
+Whenever the set license key method is called the SDK internally checks if:
+
+- the given license key is valid 
+- the application is authorized to use the given license key 
+
+Add the following code to your application to set the license key:
+
+```java 
+BlockIDSDK.getInstance().setLicenseKey("<your_license_key>")
+```
+
+### Step 3: Initialize Wallet
+
+Before registering tenant, a temporary application wallet must be created. An application can only have one wallet, hence the temporary wallet must be created **ONLY once**.
+
+Add the following code to initialize a temporary wallet:
+
+```java
+BlockIDSDK.getInstance().initiateWallet();
+```
+
+### Step 4: Register Tenant
+
+#### 4.1 About Tenant
+
+The tenant can be represented as the value or an object on which API calls can be registered. 
+
+There are two types of tenants: 
+
+- Root Tenant: stores details about enrolled user biometric informatiom and digital assets  
+- Client Tenant: stores user's enrolled persona
+
+:::note 
+A root tenant can also store a user's persona, but a client tenant cannot be used to store biometric data or digital assets 
+:::
+
+The application is expected to register a tenant **only once**. If an existing tenant is set, the application will load it after validating the license key.
+
+The SDK will only allow a tenant to be registered after the license key is set. 
+
+The tenant object is represented using the `BIDTenant` class, and can be created using the following code:
+
+```java 
+BIDTenant bidTenant = new BIDTenant("<tenant tag>", "<community name>", "<tenant DNS>");
+```
+
+#### 4.2 Register Tenant 
+
+After the object `BIDTenant`is created the tenant registration API must be called:
+
+```java 
+BlockIDSDK.getInstance().registerTenant(bidTenant, BIDTenantRegistryCallback);
+```
+
+The tenant details will be used while enrolling documents, or when getting a public key. When this function is executed, an Ethereum wallet is created and a *Distributed Identifier (DID)*, along with *12 recovery Mnemonic phrases* will be avaible to the user. 
+
+### Step 5: Commit Wallet
+
+Upon successful tenant registration, the commit wallet method must be called. The method must be called **only once**:
+
+```java 
+BlockIDSDK.getInstance().commitApplicationWallet();
+```
+
+The commit wallet method is the final step for setting up BlockID SDK into an Android application.
+
+
+## SDK Security 
+
+Because the attack surface of an API is wider than that of a standlone application. the BlockID SDK has implemented a locking mechanism to prevent any kind of unauthorized access. 
+
+For security purposes, the points below must be implemented in the application:
+
+- SDK should be locked when the application moves into background state
+- SDK should be locked when application shows login screen to Users
+- SDK lock status should be checked before calling any enrollment APIs
+
+:::tip 
+Please refer to the <a href="/api-reference" target="_blank">API reference guide</a> for mre details on the locking methods used in this section 
+:::
+
+
+
+
+
+
+

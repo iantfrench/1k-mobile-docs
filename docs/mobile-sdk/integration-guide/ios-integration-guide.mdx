@@ -6,6 +6,20 @@ id: mobile-sdk-integration-guide-ios
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import iOS3 from "./assets/img/iOS-3.png";
+import iOS4 from "./assets/img/iOS-4.png";
+import iOS7 from "./assets/img/iOS-7.png";
+import iOS11 from "./assets/img/iOS-11.png";
+import iOS12 from "./assets/img/iOS-12.png";
+import iOS14 from "./assets/img/iOS-14.png";
+import iOS17 from "./assets/img/iOS-17.png";
+import iOS15 from "./assets/img/iOS-15.png";
+import iOS18 from "./assets/img/iOS-18.png";
+import iOS20 from "./assets/img/iOS-20.png";
+import iOS21 from "./assets/img/iOS-21.png";
+import iOS19 from "./assets/img/iOS-19.png";
+import iOS22 from "./assets/img/ios-22.png"
+
 
 # iOS Integration Guide
 
@@ -43,7 +57,9 @@ Download the iOS BlockID Demo application to immediately run the code and quickl
 This section explains the step by step guide on how to set up and integrate the BlockID SDK in an iOS application. 
 
 :::tip 
-The examples below show the integration of the BlockID SDK into a new iOS project - the same steps can be used to integrate the SDK into an existing application
+The examples provided below demonstrate the integration steps of the BlockID SDK into a new iOS project
+
+The same steps can also be used for integration into an existing application
 :::
 
 :::note Screenshots in this section are generated using Xcode 13.0.
@@ -57,21 +73,22 @@ The examples below show the integration of the BlockID SDK into a new iOS projec
 - Choose *Single View Application* template
 - Press *Next*
 
-<img src={require('@site/static/img/iOS-3.png').default} />
+
+<img src={iOS3} />
 
 
 
 - We are using **BlockID Demo** for our *Product Name* 
 - Leave all the other settings as default
 
-<img src={require('@site/static/img/iOS-4.png').default} />
+<img src={iOS4} />
 
 
 - Press *Next* and select a location to save your project
 
 - Press *Create*, and the project will be opened as shown below
 
-<img src={require('@site/static/img/iOS-7.png').default} />
+<img src={iOS7} />
 
 ### Step 2: Setup CocoaPods
 
@@ -85,7 +102,7 @@ Installing the BlockID iOS SDK via <a href='http://cocoapods.org/' target='_blan
 sudo gem install cocoapods
 ```
 
-<img src={require('@site/static/img/iOS-11.png').default} />
+<img src={iOS11} />
 
 
 #### 2.2 Construct the Podfile
@@ -101,7 +118,7 @@ touch Podfile
 
 - Confirm that the `Podfile` was created by navigating to the BlockID Demo root
 
-<img src={require('@site/static/img/iOS-12.png').default} />
+<img src={iOS12} />
 
 ### Step 3: Add BlockID SDK
 
@@ -133,7 +150,7 @@ pod install
 All BlockID SDK dependencies will be installed at this time
 :::
 
-<img src={require('@site/static/img/iOS-14.png').default} />
+<img src={iOS14} />
 
 
 #### 3.2 Manual Integration
@@ -151,24 +168,24 @@ git clone https://github.com/1KBlockID/ios-blockidsdk.git
 ``` 
 - Copy the entire `BlockIDSDK.framework` folder to your *BlockID Demo* root directory
 
-<img src={require('@site/static/img/iOS-17.png').default} />
+<img src={iOS17} />
 
 - Using `Finder`, double-click the `BlockID Demo.xcworkspace` file in the same directory 
 
 - `Xcode` will open. Select *BlockID Demo* under *Targets* and select *General -> Frameworks, Libraries and Embedded Content*
 
-<img src={require('@site/static/img/iOS-15.png').default} />
+<img src={iOS15} />
 
 - Click *+* to add `BlockIDSDK.framework`
 - Once the framework is added, select *Embed & Sign* for `BlockIDSDK.framework`
 
-<img src={require('@site/static/img/iOS-18.png').default} />
+<img src={iOS18} />
 
 - The BlockID SDK uses <a href='https://developer.apple.com/documentation/cryptotokenkit' target='_blank'>CryptoTokenKit.framework</a>. The framework must be linked as *Optional* in the application target *Build Phase*
 
-<img src={require('@site/static/img/iOS-20.png').default} />
+<img src={iOS20} />
 
-<img src={require('@site/static/img/iOS-21.png').default} />
+<img src={iOS21} />
 
 ##### 3.2.2 Adding required iOS libraries 
 
@@ -216,13 +233,61 @@ To install all the dependent pods, `cd` to the BlockID Demo root directory using
 pod install 
 ```
 
-<img src={require('@site/static/img/iOS-19.png').default} />
+<img src={iOS19} />
 
 ### Step 4: Enable Bitcode
 
 For iOS apps, bitcode is enabled by default but is optional. The BlockID SDK supports enabling bitcode option in the application. 
 
-### Step 5: Application Deployment 
+### Step 5: Enable Permissions 
+
+Add the following permissions to your application. The value for each key must be changed as per your project requirement: 
+
+```jsx 
+// for NFC reading capability during passport scan
+<key>NFCReaderUsageDescription</key>
+<string>Allow permission in order to scan your passport</string>
+
+// custom message to show during NFC reading
+<key>NFCUserMessageDuringRFIDScan</key>
+<string>Hold your iPhone near an NFC enabled passport.</string>
+
+// set camera usage description
+<key>NSCameraUsageDescription</key>
+<string>Enable camera access to enable Live id and document scanning</string>
+
+// set FaceID usage description
+<key>NSFaceIDUsageDescription</key>
+<string>Face ID is needed to log in</string>
+
+// set location usage description
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>Your current location will be required.</string>
+
+// set location usage description
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>Your current location will be required.</string>
+
+// set photo library usage description
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Enable photo libarary to save screenshots</string>
+
+// set NFC reading identifier; the value must be same as given here
+<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+<array>
+  <string>A0000002471001</string>
+</array>
+```
+
+### Step 6: Add Near Field Communication Tag
+
+Add Near Field Communication tag to the project capability. This is required if application will use Passport scan feature.  
+
+Add the option from application's *`Target -> Signing & Capabilities`* and then click the *`+`* icon.  Search for *Near Field Communication* and add it to the project capabilities 
+
+<img src={iOS22} />
+
+### Step 7: Application Deployment 
 
 iOS applications require proper Xcode configuration. As the current version of BlockID iOS SDK (`version 1.6.00`) is *FAT framework*, a workaround is provided below for an `iOS App Store` submission bug that appears when archiving universal binaries is required on your project. 
 
@@ -272,7 +337,7 @@ do
 done
 ```
 
-### Step 6: Run the Application  
+### Step 8: Run the Application  
 
 The setup of the application to include the BlockID SDK is now complete. The project can now be compiled to check for any errors. 
 
@@ -292,7 +357,7 @@ The information must be set using the following sequence only and **MUST NOT** b
 Refer to the <a href="/mobile-sdk/api-reference" target="_blank">API Reference Guide</a> to get more details on the methods used in this section
 :::
 
-### Step 1. Set License Key
+### Step 1: Set License Key
 
 The license key must be called **each time** the application is launched. Internally, the SDK checks if:
 
@@ -304,4 +369,79 @@ To set the license key, add the following code in your application:
 ```jsx 
 BlockIDSDK.sharedInstance.setLicenseKey(key: "<your_license_key>")
 ```
+
+### Step 2: Initialize Wallet 
+
+Before registering tenant, a temporary application wallet must be created. An application can only have one wallet, hence the temporary wallet must be created **ONLY once**.
+
+Add the following code to initialize a temporary wallet:
+
+```shell 
+BlockIDSDK.sharedInstance.initiateTempWallet() { (status, error) in
+  //your code here
+}
+```
+
+### Step 3: Register Tenant
+
+#### 3.1 About Tenant 
+
+The tenant can be represented as the value or an object on which API calls can be registered. 
+
+There are two types of tenants: 
+
+- Root Tenant: stores details about enrolled user biometric informatiom and digital assets  
+- Client Tenant: stores user's enrolled persona
+
+:::note 
+A root tenant can also store a user's persona, but a client tenant cannot be used to store biometric data or digital assets 
+:::
+
+The application is expected to register a tenant **only once**. If an existing tenant is set, the application will load it after validating the license key.
+
+The SDK will only allow a tenant to be registered after the license key is set. 
+
+The tenant object is represented using the `BIDTenant` class, and can be created using the following code:
+
+```shell 
+let defaultTenant = BIDTenant.makeTenant(tag:"<tenant tag>", community: "<community name>", dns: "<tenant DNS>")
+```
+
+#### 3.2 Register Tenant 
+
+After the object `BIDTenant`is created the tenant registration API must be called:
+
+```shell 
+BlockIDSDK.sharedInstance.registerTenant(tenant: BIDTenant) { (status, error, tenant) in
+  // your code here
+}
+```
+
+The tenant details will be used while enrolling documents, or when getting a public key. When this function is executed, an Ethereum wallet is created and a *Distributed Identifier (DID)*, along with *12 recovery Mnemonic phrases* will be avaible to the user. 
+
+### Step 4: Commit Wallet
+
+Upon successful tenant registration, the commit wallet method must be called. The method must be called **only once**:
+
+```shell 
+BlockIDSDK.sharedInstance.commitApplicationWallet()
+```
+
+The commit wallet method is the final step for setting up BlockID SDK into an iOS application.
+
+## SDK Security 
+
+Because the attack surface of an API is wider than that of a standlone application. the BlockID SDK has implemented a locking mechanism to prevent any kind of unauthorized access. 
+
+For security purposes, the points below must be implemented in the application:
+
+- SDK should be locked when the application moves into background state
+- SDK should be locked when application shows login screen to Users
+- SDK lock status should be checked before calling any enrollment APIs
+
+:::tip 
+Please refer to the <a href="/api-reference" target="_blank">API reference guide</a> for mre details on the locking methods used in this section 
+:::
+
+
 
