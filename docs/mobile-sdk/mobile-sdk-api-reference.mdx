@@ -8,6 +8,22 @@ id: mobile-sdk-api-reference
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '6px',
+      fontSize: '28px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+    {children}
+  </span>
+);
+
+#### <Highlight color="#d62718">COMING SOON</Highlight>
+
+
 # BlockID API Reference
 
 The API reference documentation provides detailed information for each of the classes and methods in the BlockID SDK. 
