@@ -21,11 +21,7 @@ The BlockID NodeJS SDK needs to be initialized with your API key and tenant deta
 ```jsx
 const BIDSDK = require("blockid-nodejs-helpers/BIDSDK.js");
 const loaded = await BIDSDK.setupTenant(
-<<<<<<< HEAD
   { dns: "<tenant DNS>", communityName: "<community name>" }, "<tenant API key>"
-=======
-  { dns: "<tenant DNS>", communityName: "<community name>" },"<tenant API key>"
->>>>>>> b0ce1aa0014a4178552d2a33c74566ae1a888bc2
 );
 const BIDWebAuthn = require('blockid-nodejs-helpers/BIDWebAuthn.js');
 ```
