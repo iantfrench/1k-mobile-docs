@@ -1,13 +1,13 @@
 ---
-slug: /webauthn/nodejs-invocation
-id: webauthn-nodejs-invocation
+slug: /webauthn/nodejs-example
+id: webauthn-nodejs-example
 ---
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import BrowserWindow from "@site/src/components/BrowserWindow";
 
-# WebAuthn NodeJS Invocation
+# WebAuthn NodeJS Example
 
 We've integrated all the necessary functions to register and authenticate FIDO devices into the BlockID NodeJS SDK. Please see <a href="/devportal/docs#gettingstarted" target="_blank">Getting Started</a> for more information on installing and initializing the BlockID SDK for NodeJS. 
 
@@ -21,8 +21,7 @@ The BlockID NodeJS SDK needs to be initialized with your API key and tenant deta
 ```jsx
 const BIDSDK = require("blockid-nodejs-helpers/BIDSDK.js");
 const loaded = await BIDSDK.setupTenant(
-  { dns: "<tenant DNS>", communityName: "<community name>" },
-  "<tenant API key>"
+  { dns: "<tenant DNS>", communityName: "<community name>" },"<tenant API key>"
 );
 const BIDWebAuthn = require('blockid-nodejs-helpers/BIDWebAuthn.js');
 ```
