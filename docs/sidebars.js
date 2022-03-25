@@ -50,7 +50,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "BlockID WebAuthN",
+      label: "BlockID WebAuthn",
       items: [
         "webauthn/webauthn",
         "webauthn/webauthn-registration",
