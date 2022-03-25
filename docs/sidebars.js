@@ -63,14 +63,6 @@ const sidebars = {
       items: [
         "mobile-sdk/mobile-sdk-overview",
         "mobile-sdk/mobile-sdk-api-reference",
-        /*{
-          type: "category",
-          label: "API Reference",
-          items: [
-            "mobile-sdk/api-reference/mobile-sdk-api-reference-ios",
-            "mobile-sdk/api-reference/mobile-sdk-api-reference-android",
-          ],
-        },*/
         {
           type: "category",
           label: "Integration Guide",

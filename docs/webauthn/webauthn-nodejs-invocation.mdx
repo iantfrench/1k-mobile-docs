@@ -1,0 +1,334 @@
+---
+slug: /webauthn/noejs-invocation
+id: nodejs-invocation
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import BrowserWindow from "@site/src/components/BrowserWindow";
+
+# WebAuthn NodeJS Invocation
+
+We've integrated all the necessary functions to register and authenticate FIDO devices into the BlockID NodeJS SDK. Please see <a href="/devportal/docs#gettingstarted" target="_blank">Getting Started</a> for more information on installing and initializing the BlockID SDK for NodeJS. 
+
+
+## **Register FIDO Device Using BlockID NodeJS SDK**
+
+### Step 1: Initialize the SDK with Tenant Details
+
+The BlockID NodeJS SDK needs to be initialized with your API key and tenant details each time it is invoked. 
+
+```jsx
+const BIDSDK = require("blockid-nodejs-helpers/BIDSDK.js");
+const loaded = await BIDSDK.setupTenant(
+  { dns: "<tenant DNS>", communityName: "<community name>" },
+  "<tenant API key>"
+);
+const BIDWebAuthn = require('blockid-nodejs-helpers/BIDWebAuthn.js');
+```
+
+### Step 2: Fetch Device Attestation Options 
+
+After the SDK has been initialized, your FIDO device options can be fetched. Attestation options are used to create a cryptographic challenge based on your username and other details, and to return a response to that challenge. This information will be used to register your FIDO device.  
+
+:::tip
+Your `attestation` and `authenticatorSelection` parameters will depend on the type of FIDO authenticator you are registering - see below for examples
+:::        
+
+```jsx
+BIDWebAuthn.fetchAttestationOptions({
+    username: '<username>',
+    displayName: '<displayName>',
+    attestation: '<attestation>',
+    authenticatorSelection: <object>, //see below for authenticatorSelection   
+    dns: '<dns>'
+})
+
+//authenticatorSelection   
+
+// if your device is a security key, such as a YubiKey: 
+"attestation": "direct",
+"authenticatorSelection": {
+    "requireResidentKey": true
+}
+
+// if your device is a platform authenticator, such as TouchID  
+"attestation": "direct",
+"authenticatorSelection": {
+    "authenticatorAttachment": platform
+}
+
+// if your device is a MacBook 
+"attestation": "none"
+```
+
+### Step 3: Submit Device Attestation Result 
+
+After device attestation options have been fetched and a challenge has been received the device can be registered by submitting the attestation result:  
+
+```jsx
+BIDWebAuthn.submitAttestationResult({
+    rawId: <rawId>,
+    response: {
+      attestationObject: '<attestationObject>',
+      getAuthenticatorData: {},
+      getPublicKey: {},
+      getPublicKeyAlgorithm: {},
+      getTransports: {},
+      clientDataJSON: '<clientDataJSON>'
+    },
+    authenticatorAttachment: <authenticatorAttachment>,
+    getClientExtensionResults: <getClientExtensionResults>,
+    id: <id>,
+    type: <type>,
+    dns: <dns>
+})
+```
+
+
+
+## **Authenticate Using Registered FIDO Device**
+
+
+### Step 4: Fetch Assertion Options 
+
+After a FIDO device has been registered for a given user it can be used to authenticate that user going forward. To do so, we need to first fetch assertion options. These options will be used to create a cryptographic challenge based on your username, domain, and other details: 
+
+```jsx
+BIDWebAuthn.fetchAssertionOptions({
+    username: '<username>',
+    displayName: '<displayName>',
+    dns: '<dns>'
+})
+```
+
+### Step 5: Submit Assertion Result
+
+Once the assertion options have been received, the result can be submitted to allow authentication to proceed. 
+
+```jsx
+BIDWebAuthn.submitAssertionResult({
+    rawId: '<rawId>,
+    response: {
+        authenticatorData: '<authenticatorData>',
+        signature: '<signature>',
+        userHandle: '<userHandle>',
+        clientDataJSON: '<clientDataJSON>'
+    },
+    getClientExtensionResults: '<getClientExtensionResults>',
+    id: '<id>',
+    type: '<type>',
+    dns: '<dns>'
+});
+```
+
+## **Add WebAuthn to your UI**
+
+Once the backend functions are defined, you will need to build or modify your UI to view the requests and responses in a user-friendly manner. We have a <a href="/devportal/demo/?tab=fidowebauthn" target="_blank">WebAuth Demo Application</a> that is coded using the BlockID NodeJS SDK and ReactJS: 
+
+### Step 6: Create Javscript Needed by UI
+
+Our ReactJS frontend requires two javascript helper files to interact with our NodeJS SDK:
+
+```jsx title="base64url.js"
+const chars =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+
+export const base64url = () => {
+  const lookup = new Uint8Array(256);
+  for (let i = 0; i < chars.length; i++) {
+    lookup[chars.charCodeAt(i)] = i;
+  }
+
+  const encode = function (arraybuffer) {
+    const bytes = new Uint8Array(arraybuffer);
+    const len = bytes.length;
+
+    let base64url = "";
+
+    for (let i = 0; i < len; i += 3) {
+      base64url += chars[bytes[i] >> 2];
+      base64url += chars[((bytes[i] & 3) << 4) | (bytes[i + 1] >> 4)];
+      base64url += chars[((bytes[i + 1] & 15) << 2) | (bytes[i + 2] >> 6)];
+      base64url += chars[bytes[i + 2] & 63];
+    }
+
+    if (len % 3 === 2) {
+      base64url = base64url.substring(0, base64url.length - 1);
+    } else if (len % 3 === 1) {
+      base64url = base64url.substring(0, base64url.length - 2);
+    }
+
+    return base64url;
+  };
+
+  const decode = (base64string) => {
+    const bufferLength = base64string.length * 0.75;
+    const len = base64string.length;
+
+    let p = 0;
+    let encoded1;
+    let encoded2;
+    let encoded3;
+    let encoded4;
+
+    const bytes = new Uint8Array(bufferLength);
+
+    for (let i = 0; i < len; i += 4) {
+      encoded1 = lookup[base64string.charCodeAt(i)];
+      encoded2 = lookup[base64string.charCodeAt(i + 1)];
+      encoded3 = lookup[base64string.charCodeAt(i + 2)];
+      encoded4 = lookup[base64string.charCodeAt(i + 3)];
+
+      bytes[p++] = (encoded1 << 2) | (encoded2 >> 4);
+      bytes[p++] = ((encoded2 & 15) << 4) | (encoded3 >> 2);
+      bytes[p++] = ((encoded3 & 3) << 6) | (encoded4 & 63);
+    }
+
+    return bytes.buffer;
+  };
+
+  return { decode, encode };
+};
+```
+
+```jsx title="config.js"
+import { base64url } from "./base64url"; //import base64url.js file from your loaction
+const { decode } = base64url();
+const preformatMakeCredReq = (makeCredReq) => {
+  makeCredReq.challenge = decode(makeCredReq.challenge);
+  makeCredReq.user.id = decode(makeCredReq.user.id);
+
+  makeCredReq.excludeCredentials = makeCredReq.excludeCredentials.filter(
+    (item) => item.id
+  );
+
+  for (let excludeCred of makeCredReq.excludeCredentials) {
+    if (excludeCred.id) {
+      excludeCred.id = decode(excludeCred.id);
+    }
+  }
+
+  return makeCredReq;
+};
+
+export const getChallenge = (data, authenticatorAttachment) => {
+  const transformedData = {
+    ...data,
+    authenticatorSelection: {
+      ...data.authenticatorSelection,
+      authenticatorAttachment,
+    },
+  };
+  const publicKey = preformatMakeCredReq(transformedData);
+  return navigator.credentials.create({ publicKey });
+};
+
+export const publicKeyCredentialToJSON = (pubKeyCred) => {
+  const { encode } = base64url();
+  if (pubKeyCred instanceof Array) {
+    let arr = [];
+    for (let i of pubKeyCred) arr.push(publicKeyCredentialToJSON(i));
+
+    return arr;
+  } else if (pubKeyCred instanceof ArrayBuffer) {
+    return encode(pubKeyCred);
+  } else if (pubKeyCred instanceof Object) {
+    let obj = {};
+
+    for (let key in pubKeyCred) {
+      obj[key] = publicKeyCredentialToJSON(pubKeyCred[key]);
+    }
+
+    return obj;
+  }
+
+  return pubKeyCred;
+};
+
+export const preformatGetAssertReq = (getAssert) => {
+  getAssert.challenge = base64url().decode(getAssert.challenge);
+
+  for (let allowCred of getAssert.allowCredentials) {
+    allowCred.id = base64url().decode(allowCred.id);
+  }
+
+  return getAssert;
+};
+```
+
+### Step 7: FIDO Registration from UI
+
+Our frontend needs to call some javascript functions in order to call the files we created above.  
+
+```jsx
+//security key registration 
+attestation: "direct",
+          authenticatorSelection: {
+            requireResidentKey: true,
+         },	 
+
+//platform authenticator registration
+if (navigator.userAgent.indexOf("Win") > -1) { // isWindowsOS
+          attestation: "none",
+            authenticatorSelection: {
+              authenticatorAttachment: "platform",
+            },
+    }
+
+    if (navigator.userAgent.indexOf("Mac") > -1) { // isMacintoshOS
+          attestation: "none",
+    }
+	else {
+		attestation: "direct",
+          authenticatorSelection: {
+            authenticatorAttachment: "platform",
+          },
+	}
+		
+	fetchAttestationOptions({
+		username: '<username>',
+		displayName: '<displayName>',
+		attestation: '<attestation>',
+		authenticatorSelection: <object>,
+		dns: '<dns>'
+	}).then(response => {
+		//authenticatorAttachment = if security key registration then "cross-platform" else "platform"
+		return getChallenge(response, authenticatorAttachment).then(response => {
+				const makeCredResponse = publicKeyCredentialToJSON(response); // from config.js
+				submitAttestationResult({...makeCredResponse, dns: user dns});		
+		});
+	});
+```
+
+
+### Step 8: FIDO Authentication from UI 
+
+Similarly, we need to define some frontend functions to be used during authentication:
+
+```jsx 
+// Assertion APIs for authentication
+fetchAssertionOptions({
+	username: '<username>',
+	displayName: '<displayName>',
+	dns: '<dns>'
+	}).then(response => {
+			let publicKey = preformatGetAssertReq(response); // from config.js
+            return navigator.credentials.get({ publicKey });
+	}).then(response => {
+			const makeCredResponse = publicKeyCredentialToJSON(response);// from config.js
+
+			submitAssertionResult({
+					rawId: makeCredResponse?.rawId,
+					authenticatorData: makeCredResponse?.response?.authenticatorData,
+					signature: makeCredResponse?.response?.signature,
+					userHandle: makeCredResponse?.response?.userHandle || "",
+					clientDataJSON: makeCredResponse?.response?.clientDataJSON, // base64 string
+					getClientExtensionResults: {},
+					id: makeCredResponse?.id,
+					type: "public-key",
+					dns,
+			});
+});
+```
+

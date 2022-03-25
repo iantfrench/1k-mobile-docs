@@ -30,8 +30,6 @@ Some basic user account and tenant information is needed to register a device. T
 - `username`: Registered username
 - `dns`: Tenant DNS
 - `displayName`: Username to display 
-- `communityId`: Community name 
-- `tenantId`: Tenant tag
 
 ### Request Format
 
@@ -42,8 +40,6 @@ Some basic user account and tenant information is needed to register a device. T
     "displayName":"<displayname>",
     "username":"<username>",
     "dns":"<tenant DNS>",
-    "communityId":"<tenant community name>",
-    "tenantId":"<tenant tag>"
 }
 ```
 
@@ -58,8 +54,6 @@ We've provided an example request showing the authentications options flow.
     "displayName":"john.doe",
     "username":"john.doe@company.com",
     "dns":"developer.1kosmos.com",
-    "communityId":"devx",
-    "tenantId":"trial"
 }
 ```
 
@@ -113,6 +107,7 @@ Once the device authentication options have been returned you have the necessary
 {
 	"rawId": "<raw ID>",							
 	"response": {							
+			"attestationObject": "<attestationObject data>",
 			"authenticatorData": "<authenticaton result data>",
 			"signature": "<authenticator signatute>",
 			"userHandle": "<user handle>",
@@ -120,9 +115,7 @@ Once the device authentication options have been returned you have the necessary
 		},
 		"getClientExtensionResults": {},			
 		"id": "<authentication result id>",								
-		"type": "<public-key>",												
-		"tenantId":"<tenant tag>",
-                "communityId": "<community name>",						
+		"type": "<public-key>",																	
 		"dns": "<tenant DNS>"							
 	}
 ```
@@ -144,8 +137,6 @@ We've provided an example authentication result request:
             "getClientExtensionResults":{},
             "id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
             "type":"public-key"
-            "tenantId":"trial",          
-            "communityId":"devx",
             "dns":"developer.1kosmos.com",
 }
 ```

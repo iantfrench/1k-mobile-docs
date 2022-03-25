@@ -10,10 +10,6 @@ import BrowserWindow from "@site/src/components/BrowserWindow";
 
 # Register FIDO Device 
 
-:::tip
-Trials for WebAuthn are coming soon. Please contact developer@1kosmos.com for API details
-:::
-
 Users can register a compatible device to act as a FIDO authenticator. To do so, some information about the device needs to be requested during a process known as attestation. 
 
 As defined in the <a href="https://fidoalliance.org/specs/fido-v2.0-ps-20150904/fido-key-attestation-v2.0-ps-20150904.html" target="_blank">FIDO2 Specifications</a>,attestation is the capability of a FIDO-based authenticator (such as a security key or mobile device) to provide a cryptographic proof about its model to a remote relying party. Once this information is received, the device can be registered to an account. 
@@ -29,8 +25,6 @@ Some basic user account and tenant information is needed to register a device. T
 - `username`: Registered username
 - `dns`: Tenant DNS
 - `displayName`: Username to display 
-- `communityId`: Community name 
-- `tenantId`: Tenant tag
 - `attestation`: None 
 
 ### Request Format
@@ -42,8 +36,6 @@ Some basic user account and tenant information is needed to register a device. T
     "displayName":"<displayname>",
     "username":"<username>",
     "dns":"<tenant DNS>",
-    "communityId":"<tenant community name>",
-    "tenantId":"<tenant tag>",
     "attestation":"<none>"
 }
 ```
@@ -58,8 +50,6 @@ We've provided an example request showing the registration options flow.
     "displayName":"john.doe",
     "username":"john.doe@company.com",
     "dns":"developer.1kosmos.com",
-    "communityId":"devx",
-    "tenantId":"trial",
     "attestation":"none"
 }
 ```
@@ -71,7 +61,6 @@ We've provided an example request showing the registration options flow.
  { 
 			"rp": {
 				"name": "1kfido.blockid.co","id":"1kfido.blockid.co",
-				"id": "5rNSLR-3OmJveN9ydF2n3YQP6XE9DpOFTNSqEX8lRNE"
 			},
 			"user": {
 				"id": "u_G6bV8cwxY11ODyVcxR-ySp08a2EY6_9P8DQ8eojwg",
@@ -121,8 +110,7 @@ Once the device registration options are returned, the device can be registered.
 - `type`: Public-key
 - `dns`: Tenant DNS
 - `displayName`: Username to display 
-- `communityId`: Community name 
-- `tenantId`: Tenant tag
+
 
 
 
@@ -136,6 +124,7 @@ Once the device registration options are returned, the device can be registered.
   "rawId":"<raw ID>,
   "response":
   {
+    "attestationObject": "<attestationObject data>",
     "authenticatorData":"<authenticator data>",
     "signature":"<device signature>",
     "userHandle":"<user handle>",
@@ -145,9 +134,7 @@ Once the device registration options are returned, the device can be registered.
     "getClientExtensionResults":{},
     "id":"<id>",
     "type":"public-key",
-    "dns": "<tenand DNS>",						
-    "communityId": "<community name>",				
-    "tenantId": "<tenant tag>"				
+    "dns": "<tenand DNS>",								
 }
 ```
 
@@ -171,8 +158,6 @@ We've provided an example registration result:
     "id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
     "type":"public-key",
     "dns": "developer.1kosmos.com",						
-    "communityId": "devx",			
-    "tenantId": "trial"				
 }
 ```
 
@@ -186,5 +171,4 @@ We've provided an example registration result:
   "status":"ok"
 }
 ```
-
 
