@@ -1,0 +1,108 @@
+---
+sidebar_position: 2
+slug: /webauthn-demo
+id: webauthn-demo
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import BrowserWindow from "@site/src/components/BrowserWindow";
+import DemoWindow from "./assets/webauthndemo1.jpg";
+import RegisterKey1 from "./assets/webauthndemo2.jpg";
+import RegisterKey2 from "./assets/webauthndemo3.jpg";
+import RegisterPlatformAuthenticator1 from "./assets/webauthndemo4.jpg";
+import RegisterPlatformAuthenticator2 from "./assets/webauthndemo6.jpg";
+import Authenticate from "./assets/webauthndemo5.jpg";
+import Success from "./assets/webauthndemo7.jpg";
+
+# WebAuthn Demo Application
+
+We've created a demo application using the <a href="/devportal/webauthn/nodejs-example" target="_blank">BlockID NodeJS SDK</a> and ReactJS.  
+
+<BrowserWindow url="https://developer.1kosmos.com/devportal/demo/?tab=fidowebauthn">
+  <img src={DemoWindow} alt="WebAuthn Demo" />
+</BrowserWindow>
+
+
+## **Overview of the WebAuthn Demo Application**
+
+Here's a brief overview of the steps required to register and authenticate FIDO devices on our <a href="/devportal/demo/?tab=fidowebauthn" target="_blank">webauthn demo application</a>:
+
+## **Step 1: Register a Security Key or Platform Authenticator**
+
+The registration steps vary slightly depending on whether you wish to register a security key or a platform authenticator. 
+
+Not sure which?
+
+**Examples of security keys:**
+- YubiKey
+- Google TitanKey
+
+**Examples of platform authenticators:**
+- Apple TouchID and FaceID
+- Windows Hello
+- Built-in biometrics on your mobile device 
+
+
+### Register a Security Key
+
+Enter a `username` in the box on the left (under *Step 1 Register*) - this can be any unique username that has not already been used to register a device on this page.  
+
+For this demo, we are going with the name `JohnDoe`:
+
+<img src={RegisterKey1} height="250" />
+
+After typing in your username, click the **Setup security key** button. 
+
+A message from your browser will pop up asking you to insert your security key and touch it.   
+
+<img src={RegisterKey2} height="250" />
+
+Insert your security key and touch it as instructed by the browser to complete the device registration.  
+
+The pop-up message will update to display a message confirming that you have successfully registered your security key. 
+
+### Register a Platform Authenticator 
+
+Enter a `username` in the box on the left, under *Step 1 Register*. This can be any unique username that has not already been used to register a device on this page.  
+
+Because we already used the name `JohnDoe` to register a security key, we are going to use the name `JohnDoe2` for this demo, using a Macbook Pro as our Platform Authenticator:
+
+<img src={RegisterPlatformAuthenticator1} height="250" />
+
+After entering your username, click the *Setup platform authenticator* button. 
+
+A browser message will pop up asking you to confirm your identity with the built-in device biometrics. Since we are using a MacBook Pro with Apple TouchID, we see a message asking us to scan our fingerprint (or to enter a password):
+
+<img src={RegisterPlatformAuthenticator2} height="250" />
+
+After scanning our fingerprint, we will see a message stating that our device was successfully registered. 
+
+## **Step 2: Authenticate**
+
+After registering a security key or platform authenticator, we can now use the device we registered to authenticate. 
+
+Enter the `username` you used to register your device in *Step 1* in the box on the right, under *Step 2 Authenticate*. 
+
+We are going to authenticate using our MacBook, which we registered with the username `JohnDoe2`: 
+
+<img src={Authenticate} height="250" />
+
+After entering your username, click the *Login with fido key* button. 
+
+A browser message will pop up again, asking you to authenticate the FIDO device. 
+
+This will be identical to the process used when registering the device: 
+
+For *security keys*, such as a YubiKey, you will see the message asking you to insert your key and touch the device: 
+
+<img src={RegisterKey2} height="250" />
+
+For *platform authenticators*, such as Apple TouchID on a Macbook Pro, you will see the message asking you to scan your fingerprint (or else type in a password): 
+
+<img src={RegisterPlatformAuthenticator2} height="250" />
+
+After authenticating your device, you will see a message pop-up confirming the demo login was successful:
+
+<img src={Success} height="250" />
+

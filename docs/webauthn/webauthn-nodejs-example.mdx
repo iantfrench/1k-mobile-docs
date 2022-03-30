@@ -40,7 +40,7 @@ BIDWebAuthn.fetchAttestationOptions({
     displayName: '<displayName>',
     attestation: '<attestation>',
     authenticatorSelection: <object>, //see below for authenticatorSelection   
-    dns: '<dns>'
+    dns: '<current domain>'
 })
 
 //authenticatorSelection   
@@ -80,7 +80,7 @@ BIDWebAuthn.submitAttestationResult({
     getClientExtensionResults: <getClientExtensionResults>,
     id: <id>,
     type: <type>,
-    dns: <dns>
+    dns: <current domain>
 })
 ```
 
@@ -97,7 +97,7 @@ After a FIDO device has been registered for a given user it can be used to authe
 BIDWebAuthn.fetchAssertionOptions({
     username: '<username>',
     displayName: '<displayName>',
-    dns: '<dns>'
+    dns: '<current domain>'
 })
 ```
 
@@ -117,7 +117,7 @@ BIDWebAuthn.submitAssertionResult({
     getClientExtensionResults: '<getClientExtensionResults>',
     id: '<id>',
     type: '<type>',
-    dns: '<dns>'
+    dns: '<current domain>'
 });
 ```
 
@@ -290,7 +290,7 @@ if (navigator.userAgent.indexOf("Win") > -1) { // isWindowsOS
 		displayName: '<displayName>',
 		attestation: '<attestation>',
 		authenticatorSelection: <object>,
-		dns: '<dns>'
+		dns: '<current domain>'
 	}).then(response => {
 		//authenticatorAttachment = if security key registration then "cross-platform" else "platform"
 		return getChallenge(response, authenticatorAttachment).then(response => {
@@ -310,7 +310,7 @@ Similarly, we need to define some frontend functions to be used during authentic
 fetchAssertionOptions({
 	username: '<username>',
 	displayName: '<displayName>',
-	dns: '<dns>'
+	dns: '<current domain>'
 	}).then(response => {
 			let publicKey = preformatGetAssertReq(response); // from config.js
             return navigator.credentials.get({ publicKey });

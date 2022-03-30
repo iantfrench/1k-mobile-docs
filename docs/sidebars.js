@@ -14,6 +14,13 @@
 
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
+  myLinksSidebar: [
+    {
+      type: 'link',
+      label: 'Home', // The link label
+      href: '/', // The internal path
+    },
+  ],
   mySidebar: [
     {
       type: "category",
@@ -56,6 +63,7 @@ const sidebars = {
         "webauthn/webauthn-registration",
         "webauthn/webauthn-authentication",
         "webauthn/webauthn-nodejs-example",
+	"webauthn/webauthn-demo",	
       ],
     },
     {

@@ -23,7 +23,7 @@ Some basic user account and tenant information is needed to register a device. T
 ### Parameters
 
 - `username`: Registered username
-- `dns`: Tenant DNS
+- `dns`: Current domain as used in your browser, such as `localhost`
 - `displayName`: Username to display 
 - `attestation`: None 
 
@@ -35,7 +35,7 @@ Some basic user account and tenant information is needed to register a device. T
 {
     "displayName":"<displayname>",
     "username":"<username>",
-    "dns":"<tenant DNS>",
+    "dns":"<current domain>",
     "attestation":"<none>"
 }
 ```
@@ -49,7 +49,7 @@ We've provided an example request showing the registration options flow.
 {
     "displayName":"john.doe",
     "username":"john.doe@company.com",
-    "dns":"developer.1kosmos.com",
+    "dns":"localhost",
     "attestation":"none"
 }
 ```
@@ -108,7 +108,7 @@ Once the device registration options are returned, the device can be registered.
 - `getClientExtensionResults`: Extension results
 - `id`: Registration result ID
 - `type`: Public-key
-- `dns`: Tenant DNS
+- `dns`: Current domain
 - `displayName`: Username to display 
 
 
@@ -134,7 +134,7 @@ Once the device registration options are returned, the device can be registered.
     "getClientExtensionResults":{},
     "id":"<id>",
     "type":"public-key",
-    "dns": "<tenand DNS>",								
+    "dns": "<current domain>",								
 }
 ```
 
@@ -157,7 +157,7 @@ We've provided an example registration result:
     "getClientExtensionResults":{},
     "id":"AdsogLw0q2c2BZI5a9G0_qqSUxMa-baLSd7moAtEFJWlD8_NGRD_hPHnqcCGoBV-dyPe3MG_cFyF5AraYTSuMNLSDuELyFpJaM_4uQ5C0DYEav8rAw",
     "type":"public-key",
-    "dns": "developer.1kosmos.com",						
+    "dns": "localhost",						
 }
 ```
 
